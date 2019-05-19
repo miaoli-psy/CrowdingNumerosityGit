@@ -1,4 +1,4 @@
-About exp1 new matched stimuli
+## About exp1 new matched stimuli
 
 1. folder: InputRawStimuli
     contains raw stimuli generated from GenerateAlgorithm
@@ -28,7 +28,7 @@ About exp1 new matched stimuli
     generate the final displays that will be used in the experiments and the input is the 
     selceted position details named "Idea1_DESCO.xlsx" saved in '..\\..\\Crowding_and_numerosity\\MatchingAlgorithm\\Idea1\\Stimuli190429\\selectedMatchedStimuli\\'
 
-|Runme:
+## Runme:
 1. Put raw stimuli named  eg."idea1_crowdingCons_0_ws_0.3.csv" into '..\\..\\Crowding_and_numerosity\\MatchingAlgorithm\\Idea1\\Stimuli190429\\InputRawStimuli\\'
 2. run CharacterizeStimuli_Idea1_new.py
     -note that adjust the paramiters first
