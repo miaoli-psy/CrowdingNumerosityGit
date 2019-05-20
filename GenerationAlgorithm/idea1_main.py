@@ -11,23 +11,46 @@ import multiprocessing as mp
 from functools import partial
 
 # =============================================================================
+# parameter before running
+# =============================================================================
+
+crowding_cons = 0 # 0: no crowding; 1: crowding; 2: reference
+
+if not crowding_cons == 2:
+    ellipse_ka = 0.25
+    ellipse_kb = 0.1
+if  crowding_cons == 2:
+    ellipse_ka = 0.158
+    ellipse_kb = 0.158
+
+# drawEllipseFig = False
+drawEllipseFig = True
+
+newWindowSize = 0.3
+# newWindowSize = 0.4
+# newWindowSize = 0.5
+# newWindowSize = 0.6
+# newWindowSize = 0.7
+
+runN = 6 # run times
+# =============================================================================
 # run with pool
 # =============================================================================
 start = time.time()
-multiParaFunc = partial(idea1_stimuliGeneration_a0428.runStimuliGeneration,2,0.3,False,0.25,0.1)
+multiParaFunc = partial(idea1_stimuliGeneration_a0428.runStimuliGeneration,crowding_cons, newWindowSize, drawEllipseFig, ellipse_ka, ellipse_kb) 
 # def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka = 0.25, kb = 0.1,loop_number=1):
 def multicore():
     pool = mp.Pool()
     # https://www.zhihu.com/question/52188800
     # loopnumer == range(1,4)
-    pool.map(multiParaFunc, range(1,4)) #range(1,50) runs 49 times from 1 to 49
+    pool.map(multiParaFunc, range(0,runN)) #range(1,50) runs 49 times from 1 to 49
 end = time.time()
 
 runtime = round((end-start)*0.0167,2)
 print('This lovely code runs', runtime, 'minutes')
+
 if __name__ == '__main__':
     multicore()
-
 
 # =============================================================================
 # call os to run
