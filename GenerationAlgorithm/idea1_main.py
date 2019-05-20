@@ -23,16 +23,16 @@ if  crowding_cons == 2:
     ellipse_ka = 0.158
     ellipse_kb = 0.158
 
-# drawEllipseFig = False
-drawEllipseFig = True
+drawEllipseFig = False
+#drawEllipseFig = True
 
 newWindowSize = 0.3
-# newWindowSize = 0.4
-# newWindowSize = 0.5
-# newWindowSize = 0.6
-# newWindowSize = 0.7
+#newWindowSize = 0.4
+#newWindowSize = 0.5
+#newWindowSize = 0.6
+#newWindowSize = 0.7
 
-runN = 6 # run times
+runN = 100 # run times
 # =============================================================================
 # run with pool
 # =============================================================================
@@ -44,14 +44,13 @@ def multicore():
     # https://www.zhihu.com/question/52188800
     # loopnumer == range(1,4)
     pool.map(multiParaFunc, range(0,runN)) #range(1,50) runs 49 times from 1 to 49
+
+if __name__ == '__main__':
+    multicore()
 end = time.time()
 
 runtime = round((end-start)*0.0167,2)
 print('This lovely code runs', runtime, 'minutes')
-
-if __name__ == '__main__':
-    multicore()
-
 # =============================================================================
 # call os to run
 # =============================================================================
