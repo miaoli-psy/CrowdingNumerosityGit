@@ -52,8 +52,7 @@ if __name__ == '__main__':
     pool.join()
 end = time.time()
 
-# runtime = round((end-start)*0.0167,2)
-runtime = end-start
+runtime = round((end-start)*0.0167,2)
 print('This lovely code runs', runtime, 'minutes')
 # =============================================================================
 # call os to run
