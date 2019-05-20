@@ -9,7 +9,7 @@ import idea1_stimuliGeneration_a0428
 # https://morvanzhou.github.io/tutorials/python-basic/multiprocessing/5-pool/
 import multiprocessing as mp
 from functools import partial
-
+from tqdm import tqdm
 # =============================================================================
 # parameter before running
 # =============================================================================
@@ -23,33 +23,37 @@ if  crowding_cons == 2:
     ellipse_ka = 0.158
     ellipse_kb = 0.158
 
-drawEllipseFig = False
-#drawEllipseFig = True
+# drawEllipseFig = False
+drawEllipseFig = True
 
 newWindowSize = 0.3
-#newWindowSize = 0.4
-#newWindowSize = 0.5
-#newWindowSize = 0.6
-#newWindowSize = 0.7
+# newWindowSize = 0.4
+# newWindowSize = 0.5
+# newWindowSize = 0.6
+# newWindowSize = 0.7
 
-runN = 100 # run times
+runN = 20 # run times
 # =============================================================================
 # run with pool
 # =============================================================================
 start = time.time()
 multiParaFunc = partial(idea1_stimuliGeneration_a0428.runStimuliGeneration,crowding_cons, newWindowSize, drawEllipseFig, ellipse_ka, ellipse_kb) 
 # def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka = 0.25, kb = 0.1,loop_number=1):
-def multicore():
-    pool = mp.Pool()
-    # https://www.zhihu.com/question/52188800
-    # loopnumer == range(1,4)
-    pool.map(multiParaFunc, range(0,runN)) #range(1,50) runs 49 times from 1 to 49
 
 if __name__ == '__main__':
-    multicore()
+# tqdm task time Bar: https://github.com/tqdm/tqdm/issues/484
+    pool = mp.Pool()
+    # pool.map(multiParaFunc, range(0,runN))
+    # https://www.zhihu.com/question/52188800
+    for _ in tqdm(pool.imap_unordered(multiParaFunc, range(0,runN)), total=runN):#range(1,50) runs 49 times from 1 to 49
+        pass
+    # multicore()
+    pool.close()
+    pool.join()
 end = time.time()
 
-runtime = round((end-start)*0.0167,2)
+# runtime = round((end-start)*0.0167,2)
+runtime = end-start
 print('This lovely code runs', runtime, 'minutes')
 # =============================================================================
 # call os to run
