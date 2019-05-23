@@ -3,7 +3,7 @@
 Created on Tue Mar 19 23:15:33 2019
 This code calculated the generated display's properties (spacing, convexHull, occupancyArea, 
 average eccentricity...). And test if the properties for generated stimuli are normal 
-distributed.
+distributed. Run each file one by one.
 
 @author: MiaoLi
 """
@@ -45,12 +45,12 @@ stimuliPropertyToTest = 'avg_spacing'
 # stimuliPropertyToTest = 'averageE'
 # stimuliPropertyToTest = 'density'
 
-# which file
-my_choice = dic_files[(0.4,1)]
-
 #names to write
 ws = 0.4
 crowdingDis = 1
+
+# which file to read
+my_choice = dic_files[(ws,crowdingDis)]
 
 # =============================================================================
 # read csv to df
