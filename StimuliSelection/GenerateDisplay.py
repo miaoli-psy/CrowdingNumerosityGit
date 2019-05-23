@@ -2,12 +2,21 @@
 """
 Created on Tue May 14 15:33:13 2019
 
+Generate psychopy displays with known positions.
+
 @author: MiaoLi
 """
 import pandas as pd
 import os
 from psychopy import core, monitors, visual
 import ast
+# =============================================================================
+# main stimuli displays or references
+# =============================================================================
+# ref = True
+ref = False
+whiteFrame = True
+# whiteFrame = False
 # =============================================================================
 # path selected stimuli
 # =============================================================================
@@ -17,7 +26,10 @@ folderPath = '..\\..\\Crowding_and_numerosity\\MatchingAlgorithm\\Idea1\\Stimuli
 # =============================================================================
 # read selected stimuli
 # =============================================================================
-stimuliInfo_df=pd.read_excel(folderPath + 'Idea1_DESCO.xlsx')
+if not ref == True:
+    stimuliInfo_df=pd.read_excel(folderPath + 'Idea1_DESCO.xlsx') #main stimulus ~250
+if ref == True:
+    stimuliInfo_df=pd.read_excel(folderPath + 'idea1_selected_refs.xlsx') #references
 
 #jiamian
 # stimuliInfo_df = pd.read_excel( 'Idea1_DESCO.xlsx')
@@ -26,14 +38,20 @@ stimuliInfo_df=pd.read_excel(folderPath + 'Idea1_DESCO.xlsx')
 stimuliInfo_df.reset_index(drop=True, inplace=True)
 # stimuliInfo_dict = stimuliInfo_df.to_dict()
 
-combine_dic = {}
-combine_list = []
-for index, row in stimuliInfo_df.iterrows():
-    combine_dic[index] = [row['index_stimuliInfo'],row['N_disk'],row['winsize'],row['crowdingcons']]
-    combine_list.append([row['index_stimuliInfo'],row['N_disk'],row['winsize'],row['crowdingcons']])
-
-stimuliInfo_df['combine'] = combine_list
-
+if not ref == True:
+    combine_dic = {}
+    combine_list = []
+    for index, row in stimuliInfo_df.iterrows():
+        combine_dic[index] = [row['index_stimuliInfo'],row['N_disk'],row['winsize'],row['crowdingcons']]
+        combine_list.append([row['index_stimuliInfo'],row['N_disk'],row['winsize'],row['crowdingcons']])
+    stimuliInfo_df['combine'] = combine_list
+if ref == True:
+    combine_dic = {}
+    combine_list = []
+    for index, row in stimuliInfo_df.iterrows():
+        combine_dic[index] = [row['index_stimuliInfo'],row['N_disk'], row['winsize']]
+        combine_list.append([row['index_stimuliInfo'],row['N_disk'], row['winsize']])
+    stimuliInfo_df['combine'] = combine_list
 # df to list
 posi_lists_temp = stimuliInfo_df['positions'].tolist()
 posi_list=[]
@@ -75,27 +93,31 @@ def generatePsychopyDis(displayN):
     fixation.setPos([0,0])
     fixation.draw()
     # win.flip()
-
-    frame = visual.Rect(win,size = frameSize,units = 'pix') #window size 0.8
-    frame.draw()
+    if whiteFrame == True:
+        frame = visual.Rect(win,size = frameSize,units = 'pix')
+        frame.draw()
     win.flip()
     
     #保存一帧屏幕
     win.getMovieFrame()
-    win.saveMovieFrames('ws%s_crowding%s_n%s_Ndisk%s.png' %(combine_list[displayN][2], combine_list[displayN][3], combine_list[displayN][0], combine_list[displayN][1]))
+    if not ref == True:
+        win.saveMovieFrames('ws%s_crowding%s_n%s_Ndisk%s.png' %(combine_list[displayN][2], combine_list[displayN][3], combine_list[displayN][0], combine_list[displayN][1]))
+    if ref == True:
+        win.saveMovieFrames('ws%s_crowding2_n%s_Ndisk%s.png' %(combine_list[displayN][2], combine_list[displayN][0], combine_list[displayN][1]))
     # win.close()
 
 for n in range(0,len(posi_lists_temp)):
-    if combine_list[n][2] == 0.7:
-        frameSize = [1650,1100]
-    elif combine_list[n][2] == 0.6:
-        frameSize = [1450,950]
-    elif combine_list[n][2] == 0.5:
-        frameSize = [1300,850]
-    elif combine_list[n][2] == 0.4:
-        frameSize = [1150, 750]
-    elif combine_list[n][2] == 0.3:
-        frameSize = [850,550]
+    if whiteFrame == True:
+        if combine_list[n][2] == 0.7:
+            frameSize = [1650,1100]
+        elif combine_list[n][2] == 0.6:
+            frameSize = [1450,950]
+        elif combine_list[n][2] == 0.5:
+            frameSize = [1300,850]
+        elif combine_list[n][2] == 0.4:
+            frameSize = [1150, 750]
+        elif combine_list[n][2] == 0.3:
+            frameSize = [850,550]
     generatePsychopyDis(n)
 
 win.close()
