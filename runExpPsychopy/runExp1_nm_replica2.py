@@ -14,6 +14,7 @@ import numpy as np
 # parameters to adjust
 # =============================================================================
 startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4).
+
 # =============================================================================
 # some functions...
 # =============================================================================
@@ -36,8 +37,8 @@ def returnNewString(captured_string,print_string,bigLetter = False,twoLetter=Fal
                 print_string = print_string[:-1]
             # handle spaces
             #pass  # do nothing when some keys are pressed
-        elif key in ['return']:
-            pass
+        # elif key in ['return']:
+        #     pass
             # print captured_string  # write to file
             #captured_string = ''  # reset to zero length
         elif key in ['num_1', 'num_2', 'num_3', 'num_4', 'num_5', 'num_6', 'num_7', 'num_8', 'num_9', 'num_0']:
@@ -85,7 +86,7 @@ def endPractice():
     if keypress[0] == 'escape':
         core.quit()
 
-def startBlock(ref_image1, ref_image2, ref_image3, Number1, Number2, Number3): #FIXME
+def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Number1, Number2, Number3, Number4, Number5):
     fix = visual.TextStim(win, pos=[0, 0], bold=True, units='pix')
     block_text = visual.TextStim(win, pos=[0, 0], units='pix')
     block_text.setText('Fixate to the center of screen and press spacebar to see the reference display.')
@@ -173,7 +174,41 @@ def startBlock(ref_image1, ref_image2, ref_image3, Number1, Number2, Number3): #
     keypress = event.waitKeys(keyList=['space', 'escape'])
     if keypress[0] == 'escape':
         core.quit()
+    
+    image_ref4 = visual.ImageStim(win, image=ref_image4, units='pix')
+    image_ref4.draw()
+    win.flip()
+    core.wait(0.15)
 
+    image_ref_text.setText('The number of the reference disks is %s:' % (int(Number4)))
+    image_ref_text.draw()
+    image_ref_text2.draw()
+    win.flip()
+    event.waitKeys(keyList=['c'])
+
+    image_ref_text3.draw()
+    win.flip()
+    keypress = event.waitKeys(keyList=['space', 'escape'])
+    if keypress[0] == 'escape':
+        core.quit()
+
+    image_ref5 = visual.ImageStim(win, image=ref_image5, units='pix')
+    image_ref5.draw()
+    win.flip()
+    core.wait(0.15)
+
+    image_ref_text.setText('The number of the reference disks is %s:' % (int(Number5)))
+    image_ref_text.draw()
+    image_ref_text2.draw()
+    win.flip()
+    event.waitKeys(keyList=['c'])
+
+    image_ref_text3.setText('Press spacebar to start the real experiment.')
+    image_ref_text3.draw()
+    win.flip()
+    keypress = event.waitKeys(keyList=['space', 'escape'])
+    if keypress[0] == 'escape':
+        core.quit()
 
 def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, blockNo=None):
     print ('runs trial')
@@ -188,7 +223,7 @@ def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, bl
     if keypress[0] == 'escape':
         core.quit()
     if training:
-        image.setImage(u'2_c_2_f_100_wS_0.4_eS_0.15811388300841897_0.15811388300841897_33.png') #set parctice image
+        image.setImage(u'training.png') #set parctice image #TODO
     else:
         imageFile = trialInfo['imageFile']
         image.setImage(imageFile)
@@ -276,8 +311,8 @@ def endExpt():
 # os.chdir(_thisDir)
 
 # Miao:  other files in other dir
-_thisDirLocal =  '..\\..\\Crowding_and_numerosity\\setupExp_psychopy\\Psychopybuilder\\Crowding\\nm_replica2\\'
-os.chdir(_thisDirLocal)
+_thisDirLocal =  '..\\..\\Crowding_and_numerosity\\setupExp_psychopy\\Psychopybuilder\\Crowding\\Exp1_rerun\\'
+os.chdir(_thisDirLocal)# change dir to where the images, condition and blockorder are
 
 currentDir = os.path.dirname(os.path.abspath(__file__))
 
@@ -306,29 +341,29 @@ if expInfo['blockOrder'] == '':
 filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 alternative_filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\alternative_group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 
-with open(alternative_filename, 'a', newline = '') as f:
-    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('subjID', 
-                                                                                       'session',
-                                                                                       'blockNo', 
-                                                                                       'trialno', 
-                                                                                       'rt1',
-                                                                                       'correct1', 
-                                                                                       'pk1', 
-                                                                                       'corransw',
-                                                                                       'helperSpacing',
-                                                                                       'flankerSpacing', 
-                                                                                       'crowded',
-                                                                                       'helper', 
-                                                                                       'targetO',
-                                                                                       'flankerstr', 
-                                                                                       'leftObjParams',
-                                                                                       'rightObjParams',
-                                                                                       'downObjParams', 
-                                                                                       'presentedTo',
-                                                                                       'contrast', 
-                                                                                       'helperOri',
-                                                                                       'flankerCategory')
-    f.write(firstline)
+# with open(alternative_filename, 'a', newline = '') as f:
+#     firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('subjID', 
+#                                                                                        'session',
+#                                                                                        'blockNo', 
+#                                                                                        'trialno', 
+#                                                                                        'rt1',
+#                                                                                        'correct1', 
+#                                                                                        'pk1', 
+#                                                                                        'corransw',
+#                                                                                        'helperSpacing',
+#                                                                                        'flankerSpacing', 
+#                                                                                        'crowded',
+#                                                                                        'helper', 
+#                                                                                        'targetO',
+#                                                                                        'flankerstr', 
+#                                                                                        'leftObjParams',
+#                                                                                        'rightObjParams',
+#                                                                                        'downObjParams', 
+#                                                                                        'presentedTo',
+#                                                                                        'contrast', 
+#                                                                                        'helperOri',
+#                                                                                        'flankerCategory')
+#     f.write(firstline)
 
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name        = expName,
@@ -396,9 +431,13 @@ for b in range(startingBlockNumber,len(blocks)):
     startBlock(blocks['ref_image1'][b], 
                blocks['ref_image2'][b], 
                blocks['ref_image3'][b],
-               blocks['Number1'][b], 
-               blocks['Number2'][b], 
-               blocks['Number3'][b])
+               blocks['ref_image4'][b], 
+               blocks['ref_image5'][b], 
+               blocks['Number1'][b],
+               blocks['Number2'][b],
+               blocks['Number3'][b],
+               blocks['Number4'][b],
+               blocks['Number5'][b])
 
     trials = data.TrialHandler(nReps       = 1, 
                                method      = 'random',
@@ -415,8 +454,8 @@ for b in range(startingBlockNumber,len(blocks)):
 endExpt()
 
 # these shouldn't be strictly necessary (should auto-save)
-thisExp.saveAsWideText(filename+'.csv')
-thisExp.saveAsPickle(filename)
+thisExp.saveAsWideText(alternative_filename+'.csv')
+thisExp.saveAsPickle(alternative_filename)
 logging.flush()
 # make sure everything is closed down
 thisExp.abort()  # or data files will save again on exit
