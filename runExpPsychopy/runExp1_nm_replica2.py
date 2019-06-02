@@ -313,8 +313,10 @@ def endExpt():
     thankmesg2.setText('Thank you for your participation.')
     thankmesg1.draw()
     thankmesg2.draw()
+    win.flip()
     keypress = event.waitKeys(keyList=['n', 'escape'])
     if keypress[0] == 'escape':
+        win.close()
         core.quit()
 
 # Ensure that relative paths start from the same directory as this script
@@ -456,7 +458,8 @@ for b in range(startingBlockNumber,len(blocks)):
 
     for trial in trials:
         runTrial(strictResponse=doingRealExperiment, training=False, trialInfo = trial, blockNo = blocks['winsize'][b])
-
+        # print(b, trial['imageFile'])
+# print('it runs here')
 
 # these shouldn't be strictly necessary (should auto-save)
 thisExp.saveAsWideText(filename+'.csv') #! Will overwrite your alternative csv.
@@ -464,6 +467,7 @@ thisExp.saveAsPickle(filename)
 logging.flush()
 # make sure everything is closed down
 thisExp.abort()  # or data files will save again on exit
+
 #end mesage
 endExpt()
 
