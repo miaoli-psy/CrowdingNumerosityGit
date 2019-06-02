@@ -457,8 +457,6 @@ for b in range(startingBlockNumber,len(blocks)):
     for trial in trials:
         runTrial(strictResponse=doingRealExperiment, training=False, trialInfo = trial, blockNo = blocks['winsize'][b])
 
-#end mesage
-endExpt()
 
 # these shouldn't be strictly necessary (should auto-save)
 thisExp.saveAsWideText(filename+'.csv') #! Will overwrite your alternative csv.
@@ -466,5 +464,6 @@ thisExp.saveAsPickle(filename)
 logging.flush()
 # make sure everything is closed down
 thisExp.abort()  # or data files will save again on exit
-win.close()
-core.quit()
+#end mesage
+endExpt()
+
