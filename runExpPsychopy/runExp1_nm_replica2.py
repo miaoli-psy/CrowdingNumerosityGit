@@ -7,7 +7,7 @@ from scipy import special
 #from pytest import raises
 import pandas as pd
 import numpy as np
-
+import warnings
 # nat melnik
 
 # =============================================================================
@@ -15,7 +15,8 @@ import numpy as np
 # =============================================================================
 startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
 if startingBlockNumber != 0:
-    print 'START FROM BLOCK ', startingBlockNumber
+    txtw =  'STARTING FROM BLOCK ', startingBlockNumber
+    warnings.warn(txtw)
 # =============================================================================
 # some functions...
 # =============================================================================
