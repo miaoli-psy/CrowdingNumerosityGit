@@ -17,6 +17,9 @@ startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for 
 if startingBlockNumber != 0:
     txtw =  'STARTING FROM BLOCK ', startingBlockNumber
     warnings.warn(txtw)
+
+doingRealExperiment = False # write True when you are doing a real experiment to turn on the "strictResponse" option
+
 # =============================================================================
 # some functions...
 # =============================================================================
@@ -276,7 +279,7 @@ def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, bl
     # here are the variables that your are saving in "alternative_filename". DO NOT OVERWRITE THIS FILE. 
     # Note that you save this after each trial. If something happens, information about all trials before the trial on which something happened will be saved. 
     # Please match the header in 348 ("with open(alternative_filename, 'a', newline = '') as f:") to the variables you are saving. 
-    # It is good to save all information that you will be keeping for data analysis (image code, reference numers, etc.) 
+    # It is good to save all information that you will be using for data analysis (image code, reference numbers, etc.) 
     with open(alternative_filename, 'a') as f:
         line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n" % (captured_stringbottom, 
                                                                pk1, 
@@ -454,7 +457,8 @@ for b in range(startingBlockNumber,len(blocks)):
                                seed        = None, 
                                name        = 'trials')
     for trial in trials:
-        runTrial(strictResponse=False, training=False, trialInfo = trial ,blockNo = blocks['winsize'][b])
+        ### 
+        runTrial(strictResponse=doingRealExperiment, training=False, trialInfo = trial ,blockNo = blocks['winsize'][b])
     doBreak()
 
 #end mesage
