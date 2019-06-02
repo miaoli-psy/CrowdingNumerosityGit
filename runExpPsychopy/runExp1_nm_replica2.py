@@ -13,11 +13,14 @@ import warnings
 # =============================================================================
 # parameters to adjust
 # =============================================================================
-startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
+doingRealExperiment = True # write True when you are doing a real experiment to turn on the "strictResponse" option
+startingBlockNumber = 9 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
+practiceN = 3
 if startingBlockNumber != 0:
     txtw =  'STARTING FROM BLOCK ', startingBlockNumber
     warnings.warn(txtw)
-# =============================================================================
+
+# ============================================================================= 
 # some functions...
 # =============================================================================
 def updateTheResponse(captured_string):
@@ -39,8 +42,8 @@ def returnNewString(captured_string,print_string,bigLetter = False,twoLetter=Fal
                 print_string = print_string[:-1]
             # handle spaces
             #pass  # do nothing when some keys are pressed
-        # elif key in ['return']:
-        #     pass
+        elif key in ['return']:
+            pass
             # print captured_string  # write to file
             #captured_string = ''  # reset to zero length
         elif key in ['num_1', 'num_2', 'num_3', 'num_4', 'num_5', 'num_6', 'num_7', 'num_8', 'num_9', 'num_0']:
@@ -212,7 +215,7 @@ def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Numbe
     if keypress[0] == 'escape':
         core.quit()
 
-def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, blockNo=None):
+def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, blockNo=None):
     print ('runs trial')
     
     trialClock = core.Clock()
@@ -225,7 +228,7 @@ def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, bl
     if keypress[0] == 'escape':
         core.quit()
     if training:
-        image.setImage(u'training.png') #set parctice image #TODO
+        image.setImage(u'training.png') #set parctice image
     else:
         imageFile = trialInfo['imageFile']
         image.setImage(imageFile)
@@ -277,18 +280,22 @@ def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, bl
     # Note that you save this after each trial. If something happens, information about all trials before the trial on which something happened will be saved. 
     # Please match the header in 348 ("with open(alternative_filename, 'a', newline = '') as f:") to the variables you are saving. 
     # It is good to save all information that you will be keeping for data analysis (image code, reference numers, etc.) 
-    with open(alternative_filename, 'a') as f:
-        line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n" % (captured_stringbottom, 
-                                                               pk1, 
-                                                               rt1, 
-                                                               training, 
-                                                               trialInfo,
-                                                               nFrames,
-                                                               strictResponse,
-                                                               blockNo,
-                                                               expInfo['expName'],
-                                                               expInfo['blockOrder'])
-        f.write(line)
+    if training == False:
+        with open(alternative_filename, 'a') as f:
+            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" % (captured_stringbottom, 
+                                                                          pk1, 
+                                                                          rt1, 
+                                                                          training, 
+                                                                          trial['imageFile'],
+                                                                          trial['N_disk'],
+                                                                          trial['CrowdingCons'],
+                                                                          nFrames,
+                                                                          strictResponse,
+                                                                          blockNo,
+                                                                          expInfo['expName'],
+                                                                          expInfo['blockOrder'])
+            f.write(line)
+
     event.clearEvents()
 
 def doBreak():
@@ -347,30 +354,21 @@ if expInfo['blockOrder'] == '':
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
 filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 alternative_filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\alternative_group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
-### NICE TO HAVE A HEADER
-# with open(alternative_filename, 'a', newline = '') as f:
-#     firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('subjID', 
-#                                                                                        'session',
-#                                                                                        'blockNo', 
-#                                                                                        'trialno', 
-#                                                                                        'rt1',
-#                                                                                        'correct1', 
-#                                                                                        'pk1', 
-#                                                                                        'corransw',
-#                                                                                        'helperSpacing',
-#                                                                                        'flankerSpacing', 
-#                                                                                        'crowded',
-#                                                                                        'helper', 
-#                                                                                        'targetO',
-#                                                                                        'flankerstr', 
-#                                                                                        'leftObjParams',
-#                                                                                        'rightObjParams',
-#                                                                                        'downObjParams', 
-#                                                                                        'presentedTo',
-#                                                                                        'contrast', 
-#                                                                                        'helperOri',
-#                                                                                        'flankerCategory')
-#     f.write(firstline)
+## NICE TO HAVE A HEADER
+with open(alternative_filename, 'a', newline = '') as f:
+    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('response', 
+                                                                                       'pk',
+                                                                                       'reactiontime', 
+                                                                                       'training', 
+                                                                                       'Display',
+                                                                                       'Numerosity', 
+                                                                                       'Crowding', 
+                                                                                       'nFrames',
+                                                                                       'strictResponse',
+                                                                                       'blockNo', 
+                                                                                       'expName',
+                                                                                       'blockOrder')
+    f.write(firstline)
 
 # An ExperimentHandler isn't essential but helps with data saving
 thisExp = data.ExperimentHandler(name        = expName,
@@ -386,7 +384,7 @@ thisExp = data.ExperimentHandler(name        = expName,
 logFile = logging.LogFile(filename+'.log', level=logging.EXP)
 logging.console.setLevel(logging.WARNING)  # this outputs to the screen, not a file
 
-endExpNow = False  # flag for 'escape' or other condition => quit the exp
+# endExpNow = False  # flag for 'escape' or other condition => quit the exp
 
 myMonitor= monitors.Monitor('CRT_Lille', width = 40.5, distance = 57)#TODO
 win = visual.Window(monitor  = myMonitor,
@@ -427,7 +425,7 @@ blocks= pd.read_csv("blockOrder"+str(expInfo['blockOrder'])+".csv", sep=',')#may
 startExpt()
 
 #practice
-for i in range(3):
+for i in range(practiceN):
     runTrial(training=True,strictResponse=False, blockNo='training')# 3 practice trials
 endPractice()
 
@@ -453,9 +451,11 @@ for b in range(startingBlockNumber,len(blocks)):
                                trialList   = data.importConditions(blocks['winsize'][b]),
                                seed        = None, 
                                name        = 'trials')
+    if b == 5:
+        doBreak()
+
     for trial in trials:
-        runTrial(strictResponse=False, training=False, trialInfo = trial ,blockNo = blocks['winsize'][b])
-    doBreak()
+        runTrial(strictResponse=doingRealExperiment, training=False, trialInfo = trial, blockNo = blocks['winsize'][b])
 
 #end mesage
 endExpt()
