@@ -13,8 +13,9 @@ import numpy as np
 # =============================================================================
 # parameters to adjust
 # =============================================================================
-startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4).
-
+startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
+if startingBlockNumber != 0:
+    print 'START FROM BLOCK ', startingBlockNumber
 # =============================================================================
 # some functions...
 # =============================================================================
@@ -266,10 +267,15 @@ def runTrial(training=False, trialInfo=None, nFrames=10, strictResponse=True, bl
                 if thiskey[0] == 'escape':
                     core.quit()
                 else:
-                    rt1 = thiskey[1]
-                    pk1 = thiskey[0]
+                    rt1 = thiskey[1] # timestamp of key press (could be useful for data analysis).
+                    pk1 = thiskey[0] # the key that was pressed
                     print (captured_stringbottom, pk1,rt1)
                     done = True
+    # !!!!!! IMPORTANT!!!!!!!
+    # here are the variables that your are saving in "alternative_filename". DO NOT OVERWRITE THIS FILE. 
+    # Note that you save this after each trial. If something happens, information about all trials before the trial on which something happened will be saved. 
+    # Please match the header in 348 ("with open(alternative_filename, 'a', newline = '') as f:") to the variables you are saving. 
+    # It is good to save all information that you will be keeping for data analysis (image code, reference numers, etc.) 
     with open(alternative_filename, 'a') as f:
         line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n" % (captured_stringbottom, 
                                                                pk1, 
@@ -340,7 +346,7 @@ if expInfo['blockOrder'] == '':
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
 filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 alternative_filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\alternative_group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
-
+### NICE TO HAVE A HEADER
 # with open(alternative_filename, 'a', newline = '') as f:
 #     firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('subjID', 
 #                                                                                        'session',
@@ -454,8 +460,8 @@ for b in range(startingBlockNumber,len(blocks)):
 endExpt()
 
 # these shouldn't be strictly necessary (should auto-save)
-thisExp.saveAsWideText(alternative_filename+'.csv')
-thisExp.saveAsPickle(alternative_filename)
+thisExp.saveAsWideText(filename+'.csv') #! Will overwrite your alternative csv.
+thisExp.saveAsPickle(filename)
 logging.flush()
 # make sure everything is closed down
 thisExp.abort()  # or data files will save again on exit
