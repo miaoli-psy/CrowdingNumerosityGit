@@ -172,13 +172,6 @@ def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Numbe
     image_ref_text2.draw()
     win.flip()
     event.waitKeys(keyList=['c'])
-
-    image_ref_text3.setText('Press spacebar to start the real experiment.')
-    image_ref_text3.draw()
-    win.flip()
-    keypress = event.waitKeys(keyList=['space', 'escape'])
-    if keypress[0] == 'escape':
-        core.quit()
     
     image_ref4 = visual.ImageStim(win, image=ref_image4, units='pix')
     image_ref4.draw()
