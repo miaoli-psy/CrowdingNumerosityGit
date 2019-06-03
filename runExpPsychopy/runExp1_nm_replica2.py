@@ -10,6 +10,15 @@ import numpy as np
 import warnings
 # nat melnik
 
+####
+# TODO:
+# - check if the folder for storing results exists.
+# - do proper timing for image
+# - check how ExperimentHandler amd TrailHandler work... 
+#     - and realize that we are not using ExperimentHandler anymore (or rather "properly"?) 
+#     - compare the output of previous ExptHandler with current ExptHandler. 
+
+
 # =============================================================================
 # parameters to adjust
 # =============================================================================
@@ -209,7 +218,7 @@ def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Numbe
         core.quit()
 
 def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, blockNo=None):
-    print ('runs trial')
+    #print ('runs trial')
     
     trialClock = core.Clock()
     fixation = visual.TextStim(win, color=(-1, -1, -1), bold=True, units='pix')
