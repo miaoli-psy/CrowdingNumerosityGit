@@ -464,7 +464,7 @@ for b in range(startingBlockNumber,len(blocks)):
 # print('it runs here')
 
 # these shouldn't be strictly necessary (should auto-save)
-thisExp.saveAsWideText(filename+'.csv') #! Will overwrite your alternative csv.
+thisExp.saveAsWideText(filename) 
 thisExp.saveAsPickle(filename)
 logging.flush()
 # make sure everything is closed down
