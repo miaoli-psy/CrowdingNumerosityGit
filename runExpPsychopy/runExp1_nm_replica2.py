@@ -8,22 +8,15 @@ from scipy import special
 import pandas as pd
 import numpy as np
 import warnings
+import os.path
 # nat melnik
-
-####
-# TODO:
-# - check if the folder for storing results exists.
-# - do proper timing for image
-# - check how ExperimentHandler amd TrailHandler work... 
-#     - and realize that we are not using ExperimentHandler anymore (or rather "properly"?) 
-#     - compare the output of previous ExptHandler with current ExptHandler. 
 
 
 # =============================================================================
 # parameters to adjust
 # =============================================================================
 doingRealExperiment = True # write True when you are doing a real experiment to turn on the "strictResponse" option
-startingBlockNumber = 9 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
+startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
 practiceN = 3
 if startingBlockNumber != 0:
     txtw =  'STARTING FROM BLOCK ', startingBlockNumber
@@ -181,7 +174,14 @@ def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Numbe
     image_ref_text2.draw()
     win.flip()
     event.waitKeys(keyList=['c'])
-    
+
+    # image_ref_text3.setText('Press spacebar to start the real experiment.')
+    image_ref_text3.draw()
+    win.flip() 
+    keypress = event.waitKeys(keyList=['space', 'escape'])
+    if keypress[0] == 'escape':
+        core.quit()
+
     image_ref4 = visual.ImageStim(win, image=ref_image4, units='pix')
     image_ref4.draw()
     win.flip()
@@ -284,14 +284,13 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
     # It is good to save all information that you will be keeping for data analysis (image code, reference numers, etc.) 
     if training == False:
         with open(alternative_filename, 'a') as f:
-            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" % (captured_stringbottom, 
+            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" % (captured_stringbottom, 
                                                                           pk1, 
                                                                           rt1, 
                                                                           training, 
                                                                           trial['imageFile'],
                                                                           trial['N_disk'],
                                                                           trial['CrowdingCons'],
-                                                                          nFrames,
                                                                           strictResponse,
                                                                           blockNo,
                                                                           expInfo['expName'],
@@ -313,13 +312,15 @@ def endExpt():
     thankmesg1.setText('This is the end of the experiment.')
     thankmesg2 = visual.TextStim(win, pos=[0, 0], units='pix')
     thankmesg2.setText('Thank you for your participation.')
+    thankmesg3 = visual.TextStim(win, pos = [0, -35], units = 'pix')
+    thankmesg3.setText('Press n or esc to quit.')
     thankmesg1.draw()
     thankmesg2.draw()
+    thankmesg3.draw()
+    
     win.flip()
     keypress = event.waitKeys(keyList=['n', 'escape'])
-    if keypress[0] == 'escape':
-        win.close()
-        core.quit()
+
 
 # Ensure that relative paths start from the same directory as this script
 
@@ -329,10 +330,10 @@ def endExpt():
 # os.chdir(_thisDir)
 
 # Miao:  other files in other dir
-_thisDirLocal =  '..\\..\\Crowding_and_numerosity\\setupExp_psychopy\\Psychopybuilder\\Crowding\\Exp1_rerun\\'
-os.chdir(_thisDirLocal)# change dir to where the images, condition and blockorder are
+_thisDir =  '..\\..\\Crowding_and_numerosity\\setupExp_psychopy\\Psychopybuilder\\Crowding\\Exp1_rerun\\'
+os.chdir(_thisDir)# change dir to where the images, condition and blockorder are
 
-currentDir = os.path.dirname(os.path.abspath(__file__))
+currentDir = os.path.dirname(os.path.abspath(__file__))# where datafile stored
 
 # Store info about the experiment session
 expName = 'Crwdng_Nmrsty_older_runOnLab1'
@@ -355,23 +356,24 @@ if expInfo['blockOrder'] == '':
     expInfo['blockOrder'] = 30
     print ('this is test')
 
+if os.path.exists(currentDir + os.sep + u'data_Crwdng_Nmrsty1') == False:
+    os.makedirs(currentDir + os.sep + u'data_Crwdng_Nmrsty1')
 # Data file name stem = absolute path + name; later add .psyexp, .csv, .log, etc
 filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 alternative_filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\alternative_group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 ## NICE TO HAVE A HEADER
 with open(alternative_filename, 'a', newline = '') as f:
-    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('response', 
-                                                                                       'pk',
-                                                                                       'reactiontime', 
-                                                                                       'training', 
-                                                                                       'Display',
-                                                                                       'Numerosity', 
-                                                                                       'Crowding', 
-                                                                                       'nFrames',
-                                                                                       'strictResponse',
-                                                                                       'blockNo', 
-                                                                                       'expName',
-                                                                                       'blockOrder')
+    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('response', 
+                                                            'pk',
+                                                            'reactiontime', 
+                                                            'training', 
+                                                            'Display',
+                                                            'Numerosity', 
+                                                            'Crowding', 
+                                                            'strictResponse',
+                                                            'blockNo', 
+                                                            'expName',
+                                                            'blockOrder')
     f.write(firstline)
 
 # An ExperimentHandler isn't essential but helps with data saving
@@ -472,4 +474,5 @@ thisExp.abort()  # or data files will save again on exit
 
 #end mesage
 endExpt()
-
+win.close()
+core.quit()
