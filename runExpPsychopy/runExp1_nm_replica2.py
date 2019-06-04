@@ -15,7 +15,7 @@ import os.path
 # =============================================================================
 # parameters to adjust
 # =============================================================================
-doingRealExperiment = True # write True when you are doing a real experiment to turn on the "strictResponse" option
+doingRealExperiment = False # write True when you are doing a real experiment to turn on the "strictResponse" option
 startingBlockNumber = 0 #type block-1 to start from specific block (i.e., 3 for block 4; 0 to start with the first block of the sequence).
 practiceN = 3
 if startingBlockNumber != 0:
@@ -284,17 +284,21 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
     # It is good to save all information that you will be keeping for data analysis (image code, reference numers, etc.) 
     if training == False:
         with open(alternative_filename, 'a') as f:
-            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,\n" % (captured_stringbottom, 
-                                                                          pk1, 
-                                                                          rt1, 
-                                                                          training, 
-                                                                          trial['imageFile'],
-                                                                          trial['N_disk'],
-                                                                          trial['CrowdingCons'],
-                                                                          strictResponse,
-                                                                          blockNo,
-                                                                          expInfo['expName'],
-                                                                          expInfo['blockOrder'])
+            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n" % (expInfo['participant'],
+                                                                                       expInfo['sex'],
+                                                                                       expInfo['handness'],
+                                                                                       captured_stringbottom, 
+                                                                                       pk1, 
+                                                                                       rt1, 
+                                                                                       training, 
+                                                                                       trial['imageFile'],
+                                                                                       trial['N_disk'],
+                                                                                       trial['CrowdingCons'],
+                                                                                       strictResponse,
+                                                                                       blockNo,
+                                                                                       expInfo['expName'],
+                                                                                       expInfo['blockOrder'],
+                                                                                       (b+1))
             f.write(line)
 
     event.clearEvents()
@@ -319,7 +323,8 @@ def endExpt():
     thankmesg3.draw()
     
     win.flip()
-    keypress = event.waitKeys(keyList=['n', 'escape'])
+    # keypress = event.waitKeys(keyList=['n', 'escape'])
+    event.waitKeys(keyList=['n', 'escape'])
 
 
 # Ensure that relative paths start from the same directory as this script
@@ -336,8 +341,8 @@ os.chdir(_thisDir)# change dir to where the images, condition and blockorder are
 currentDir = os.path.dirname(os.path.abspath(__file__))# where datafile stored
 
 # Store info about the experiment session
-expName = 'Crwdng_Nmrsty_older_runOnLab1'
-expInfo = {u'handedness'   : ['Right handed', 'Left handed'],
+expName = 'Crwdng_Nmrsty_rerun_lille'
+expInfo = {u'handness'   : ['Right handed', 'Left handed'],
            u'participant'  : u'',
            u'age'          : u'',
            u'blockOrder'   : u'',
@@ -363,17 +368,21 @@ filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\group%s_participant%s_da
 alternative_filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\alternative_group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 ## NICE TO HAVE A HEADER
 with open(alternative_filename, 'a', newline = '') as f:
-    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,\n" % ('response', 
-                                                            'pk',
-                                                            'reactiontime', 
-                                                            'training', 
-                                                            'Display',
-                                                            'Numerosity', 
-                                                            'Crowding', 
-                                                            'strictResponse',
-                                                            'blockNo', 
-                                                            'expName',
-                                                            'blockOrder')
+    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, \n" % ('participant_N',
+                                                                      'sex',
+                                                                      'handness',
+                                                                      'response', 
+                                                                      'pk',
+                                                                      'reactiontime', 
+                                                                      'training', 
+                                                                      'Display',
+                                                                      'Numerosity', 
+                                                                      'Crowding', 
+                                                                      'strictResponse',
+                                                                      'blockNo', 
+                                                                      'expName',
+                                                                      'blockOrder',
+                                                                      'whichBlock')
     f.write(firstline)
 
 # An ExperimentHandler isn't essential but helps with data saving
