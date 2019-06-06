@@ -10,13 +10,14 @@ This code generates the condition files for each participants.
 from numpy.random import shuffle
 import copy, sys, csv
 from random import randint
+import random
 
 # # Run multiple times
 # try:
 #     _, loop_number = sys.argv
 # except Exception as e:
 #     pass
-
+# runN = 1
 def runBlockorder(runN):
     # The block list I want 
     myCons = ['condition0.3.xlsx', 'condition0.7.xlsx', 'condition0.6.xlsx', 'condition0.5.xlsx', 'condition0.4.xlsx']
@@ -25,82 +26,64 @@ def runBlockorder(runN):
     myCons2.reverse()
     myCons.extend(myCons2)
     print(myCons)
-
-    ref_ws03   = {'ws0.3_crowding2_n115_Ndisk23.png': 23,
-                  'ws0.3_crowding2_n24_Ndisk24.png' : 24,
-                  'ws0.3_crowding2_n70_Ndisk21.png' : 21,
-                  'ws0.3_crowding2_n7_Ndisk22.png'  : 22,
-                  'ws0.3_crowding2_n93_Ndisk25.png' : 25}
-
+    
+    ref_ws03   = {'wS_0.3_eS_0.17_0.17_17.png'     : 17,
+                  'wS_0.3_eS_0.145_0.145_29.png'   : 29,
+                  'wS_0.3_eS_0.1581_0.1581_20.png' : 20,
+                  'wS_0.3_eS_0.1581_0.1581_23.png' : 23,
+                  'wS_0.3_eS_0.1581_0.1581_26.png' : 26}
+    
     ref_ws03_keys = list(ref_ws03.keys())
     ref_ws03_values = list(ref_ws03.values())
-
-    ref_ws04   = {'ws0.4_crowding2_n106_Ndisk35.png':35,
-                  'ws0.4_crowding2_n118_Ndisk34.png':34,
-                  'ws0.4_crowding2_n196_Ndisk31.png':31,
-                  'ws0.4_crowding2_n1_Ndisk33.png'  :33,
-                  'ws0.4_crowding2_n20_Ndisk32.png' :32}
-
+    
+    ref_ws04   = {'wS_0.4_eS_0.145_0.145_41.png'   :41,
+                  'wS_0.4_eS_0.175_0.175_25.png'   :25,
+                  'wS_0.4_eS_0.1581_0.1581_30.png' :30,
+                  'wS_0.4_eS_0.1581_0.1581_33.png' :33,
+                  'wS_0.4_eS_0.1581_0.1581_36.png' :36}
+    
     ref_ws04_keys = list(ref_ws04.keys())
     ref_ws04_values = list(ref_ws04.values())
-
-    ref_ws05   = {'ws0.5_crowding2_n22_Ndisk41.png': 41,
-                  'ws0.5_crowding2_n24_Ndisk44.png': 44,
-                  'ws0.5_crowding2_n29_Ndisk45.png': 45,
-                  'ws0.5_crowding2_n64_Ndisk43.png': 43,
-                  'ws0.5_crowding2_n99_Ndisk42.png': 42}
-
+    
+    ref_ws05   = {'wS_0.5_eS_0.14_0.14_49.png'    : 49,
+                  'wS_0.5_eS_0.14_0.14_54.png'    : 54,
+                  'wS_0.5_eS_0.17_0.17_37.png'    : 37,
+                  'wS_0.5_eS_0.18_0.18_32.png'    : 32,
+                  'wS_0.5_eS_0.1581_0.1581_43.png': 43}
+    
     ref_ws05_keys = list(ref_ws05.keys())
     ref_ws05_values = list(ref_ws05.values())
-
-    ref_ws06   = {'ws0.6_crowding2_n17_Ndisk52.png': 52,
-                  'ws0.6_crowding2_n25_Ndisk51.png': 51,
-                  'ws0.6_crowding2_n48_Ndisk49.png': 49,
-                  'ws0.6_crowding2_n4_Ndisk53.png' : 53,
-                  'ws0.6_crowding2_n9_Ndisk50.png' : 50}
+    
+    ref_ws06   = {'wS_0.6_eS_0.14_0.14_64.png'    : 64,
+                  'wS_0.6_eS_0.17_0.17_44.png'    : 44,
+                  'wS_0.6_eS_0.18_0.18_38.png'    : 38,
+                  'wS_0.6_eS_0.145_0.145_58.png'  : 58,
+                  'wS_0.6_eS_0.1581_0.1581_51.png': 51}
     ref_ws06_keys = list(ref_ws06.keys())
     ref_ws06_values = list(ref_ws06.values())
-    ref_ws07   = {'ws0.7_crowding2_n12_Ndisk55.png': 55,
-                  'ws0.7_crowding2_n13_Ndisk58.png': 58,
-                  'ws0.7_crowding2_n30_Ndisk54.png': 54,
-                  'ws0.7_crowding2_n39_Ndisk56.png': 56,
-                  'ws0.7_crowding2_n41_Ndisk57.png': 57}
-
+    ref_ws07   = {'wS_0.7_eS_0.17_0.17_49.png'    : 49,
+                  'wS_0.7_eS_0.18_0.18_42.png'    : 42,
+                  'wS_0.7_eS_0.145_0.145_63.png'  : 63,
+                  'wS_0.7_eS_0.145_0.145_70.png'  : 70,
+                  'wS_0.7_eS_0.1581_0.1581_56.png': 56}
+    
     ref_ws07_keys = list(ref_ws07.keys())
     ref_ws07_values = list(ref_ws07.values())
-
-    random_index_a1 = randint(0, 4)
-    random_index_b1 = randint(0, 4)
-    random_index_c1 = randint(0, 4)
-    random_index_d1 = randint(0, 4)
-    random_index_e1 = randint(0, 4)
-    random_index_a2 = randint(0, 4)
-    random_index_b2 = randint(0, 4)
-    random_index_c2 = randint(0, 4)
-    random_index_d2 = randint(0, 4)
-    random_index_e2 = randint(0, 4)
-    random_index_a3 = randint(0, 4)
-    random_index_b3 = randint(0, 4)
-    random_index_c3 = randint(0, 4)
-    random_index_d3 = randint(0, 4)
-    random_index_e3 = randint(0, 4)
-    random_index_a4 = randint(0, 4)
-    random_index_b4 = randint(0, 4)
-    random_index_c4 = randint(0, 4)
-    random_index_d4 = randint(0, 4)
-    random_index_e4 = randint(0, 4)
-    random_index_a5 = randint(0, 4)
-    random_index_b5 = randint(0, 4)
-    random_index_c5 = randint(0, 4)
-    random_index_d5 = randint(0, 4)
-    random_index_e5 = randint(0, 4)
-
-    myConsDic = { 'condition0.3.xlsx': [ref_ws07_keys[random_index_a1], ref_ws07_values[random_index_a1], ref_ws03_keys[random_index_b1], ref_ws03_values[random_index_b1], ref_ws04_keys[random_index_c1], ref_ws04_values[random_index_c1], ref_ws06_keys[random_index_d1], ref_ws06_values[random_index_d1], ref_ws05_keys[random_index_e1], ref_ws05_values[random_index_e1]],
-                  'condition0.7.xlsx': [ref_ws04_keys[random_index_a2], ref_ws04_values[random_index_a2], ref_ws06_keys[random_index_b2], ref_ws06_values[random_index_b2], ref_ws03_keys[random_index_c2], ref_ws03_values[random_index_c2], ref_ws05_keys[random_index_d2], ref_ws05_values[random_index_d2], ref_ws07_keys[random_index_e2], ref_ws07_values[random_index_e2]],
-                  'condition0.6.xlsx': [ref_ws06_keys[random_index_a3], ref_ws06_values[random_index_a3], ref_ws04_keys[random_index_b3], ref_ws04_values[random_index_b3], ref_ws05_keys[random_index_c3], ref_ws05_values[random_index_c3], ref_ws03_keys[random_index_d3], ref_ws03_values[random_index_d3], ref_ws07_keys[random_index_e3], ref_ws07_values[random_index_e3]],
-                  'condition0.5.xlsx': [ref_ws04_keys[random_index_a4], ref_ws04_values[random_index_a4], ref_ws07_keys[random_index_b4], ref_ws07_values[random_index_b4], ref_ws05_keys[random_index_c4], ref_ws05_values[random_index_c4], ref_ws03_keys[random_index_d4], ref_ws03_values[random_index_d4], ref_ws06_keys[random_index_e4], ref_ws06_values[random_index_e4]],
-                  'condition0.4.xlsx': [ref_ws03_keys[random_index_a5], ref_ws03_values[random_index_a5], ref_ws05_keys[random_index_b5], ref_ws05_values[random_index_b5], ref_ws07_keys[random_index_c5], ref_ws07_values[random_index_c5], ref_ws04_keys[random_index_d5], ref_ws04_values[random_index_d5], ref_ws06_keys[random_index_e5], ref_ws06_values[random_index_e5]]}
-
+    
+    
+    index1 = index2 = index3 = index4 = index5 = [0, 1, 2, 3, 4]
+    random.shuffle(index1)
+    random.shuffle(index2)
+    random.shuffle(index3)
+    random.shuffle(index4)
+    random.shuffle(index5)
+    
+    myConsDic = { 'condition0.3.xlsx': [ref_ws03_keys[index1[0]], ref_ws03_values[index1[0]], ref_ws03_keys[index1[1]], ref_ws03_values[index1[1]], ref_ws03_keys[index1[2]], ref_ws03_values[index1[2]], ref_ws03_keys[index1[3]], ref_ws03_values[index1[3]], ref_ws03_keys[index1[4]], ref_ws03_values[index1[4]]],
+                  'condition0.7.xlsx': [ref_ws07_keys[index2[0]], ref_ws07_values[index2[0]], ref_ws07_keys[index2[1]], ref_ws07_values[index2[1]], ref_ws07_keys[index2[2]], ref_ws07_values[index2[2]], ref_ws07_keys[index2[3]], ref_ws07_values[index2[3]], ref_ws07_keys[index2[4]], ref_ws07_values[index2[4]]],
+                  'condition0.6.xlsx': [ref_ws06_keys[index3[0]], ref_ws06_values[index3[0]], ref_ws06_keys[index3[1]], ref_ws06_values[index3[1]], ref_ws06_keys[index3[2]], ref_ws06_values[index3[2]], ref_ws06_keys[index3[3]], ref_ws06_values[index3[3]], ref_ws06_keys[index3[4]], ref_ws06_values[index3[4]]],
+                  'condition0.5.xlsx': [ref_ws05_keys[index4[0]], ref_ws05_values[index4[0]], ref_ws05_keys[index4[1]], ref_ws05_values[index4[1]], ref_ws05_keys[index4[2]], ref_ws05_values[index4[2]], ref_ws05_keys[index4[3]], ref_ws05_values[index4[3]], ref_ws05_keys[index4[4]], ref_ws05_values[index4[4]]],
+                  'condition0.4.xlsx': [ref_ws04_keys[index5[0]], ref_ws04_values[index5[0]], ref_ws04_keys[index5[1]], ref_ws04_values[index5[1]], ref_ws04_keys[index5[2]], ref_ws04_values[index5[2]], ref_ws04_keys[index5[3]], ref_ws04_values[index5[3]], ref_ws04_keys[index5[4]], ref_ws04_values[index5[4]]]}
+    
     #write them to a csv
     with open ('blockOrder%s.csv' %(runN), 'a+', newline='') as csvfile:
         fieldnames = ['winsize','ref_image1','Number1','ref_image2','Number2','ref_image3','Number3', 'ref_image4','Number4', 'ref_image5','Number5'] #headers
@@ -118,16 +101,16 @@ def runBlockorder(runN):
             elif idx == 9:
                 idx =0
             writer.writerow({'winsize'     : condition, 
-                             'ref_image1'  : myConsDic.get(condition)[0],
-                             'Number1'     : myConsDic.get(condition)[1], 
-                             'ref_image2'  : myConsDic.get(condition)[2],
-                             'Number2'     : myConsDic.get(condition)[3],
-                             'ref_image3'  : myConsDic.get(condition)[4],
-                             'Number3'     : myConsDic.get(condition)[5],
-                             'ref_image4'  : myConsDic.get(condition)[6],
-                             'Number4'     : myConsDic.get(condition)[7],
-                             'ref_image5'  : myConsDic.get(condition)[8],
-                             'Number5'     : myConsDic.get(condition)[9]})
+                              'ref_image1'  : myConsDic.get(condition)[0],
+                              'Number1'     : myConsDic.get(condition)[1], 
+                              'ref_image2'  : myConsDic.get(condition)[2],
+                              'Number2'     : myConsDic.get(condition)[3],
+                              'ref_image3'  : myConsDic.get(condition)[4],
+                              'Number3'     : myConsDic.get(condition)[5],
+                              'ref_image4'  : myConsDic.get(condition)[6],
+                              'Number4'     : myConsDic.get(condition)[7],
+                              'ref_image5'  : myConsDic.get(condition)[8],
+                              'Number5'     : myConsDic.get(condition)[9]})
 
 i = 1
 while i <= 40:
