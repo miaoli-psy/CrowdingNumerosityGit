@@ -239,9 +239,8 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
     for i in range(0,nFrames):
         image.draw()
         win.flip()
-    print 'was presented for', trialClock.getTime() 
-    
     win.flip()
+    print 'was presented for', trialClock.getTime() 
     done=False
     
     trialClock.reset()
