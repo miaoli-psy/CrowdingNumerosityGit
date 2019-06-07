@@ -235,12 +235,22 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
         imageFile = trialInfo['imageFile']
         image.setImage(imageFile)
     
+    #trialClock.reset()
+    #for i in range(0,nFrames):
+    #    image.draw()
+    #    win.flip()
+    #win.flip()
+    #print 'was presented for', trialClock.getTime() 
+    
+    PresentationClock = core.Clock()
     trialClock.reset()
-    for i in range(0,nFrames):
+    while PresentationClock.getTime() < 0.150:  # Clock times are in seconds
         image.draw()
         win.flip()
     win.flip()
     print 'was presented for', trialClock.getTime() 
+    
+    
     done=False
     
     trialClock.reset()
