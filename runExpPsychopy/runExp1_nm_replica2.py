@@ -80,7 +80,7 @@ def endPractice():
     end_practice1 = visual.TextStim(win, pos=[0, +35], units='pix')
     end_practice1.setText('This is the end of practice')
     end_practice2 = visual.TextStim(win, pos=[0, 0], units='pix')
-    end_practice2.setText('There are 10 blocks of the real experiment, you will see 3 reference images before each block.')
+    end_practice2.setText('There are 10 blocks of the real experiment, you will see 5 reference images before each block.')
     end_practice3 = visual.TextStim(win, pos=[0, -35], units='pix')
     end_practice3.setText('Hit spacebar to start the real experiment.')
     end_practice1.draw()
@@ -450,10 +450,10 @@ blocks= pd.read_csv("blockOrder"+str(expInfo['blockOrder'])+".csv", sep=',')#may
 
 #welcome message
 startExpt()
-
+nFrames = int(np.rint(win.getActualFrameRate()/1000 * 150))
 #practice
 for i in range(practiceN):
-    runTrial(training=True,strictResponse=False, blockNo='training')# 3 practice trials
+    runTrial(training=True,strictResponse=False, nFrames= nFrames, blockNo='training')# 3 practice trials
 endPractice()
 
 #real experiment
@@ -482,7 +482,7 @@ for b in range(startingBlockNumber,len(blocks)):
         doBreak()
 
     for trial in trials:
-        runTrial(strictResponse=doingRealExperiment, training=False, trialInfo = trial, blockNo = blocks['winsize'][b])
+        runTrial(strictResponse=doingRealExperiment, training=False, nFrames= nFrames, trialInfo = trial, blockNo = blocks['winsize'][b])
         # print(b, trial['imageFile'])
 # print('it runs here')
 
