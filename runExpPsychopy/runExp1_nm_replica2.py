@@ -91,12 +91,13 @@ def endPractice():
     if keypress[0] == 'escape':
         core.quit()
 
-def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Number1, Number2, Number3, Number4, Number5):
+def startBlock(ref_image1, ref_image2, ref_image3, ref_image4, ref_image5, Number1, Number2, Number3, Number4, Number5, blockN = 0):
     fix = visual.TextStim(win, pos=[0, 0], bold=True, units='pix')
     block_text = visual.TextStim(win, pos=[0, 0], units='pix')
-    block_text.setText('Fixate to the center of screen and press spacebar to see the reference display.')
+    block_text.setText('You are going to start block %s.\n'
+                       'Fixate to the center of screen and press spacebar to see the reference display.' %((blockN+1)))
     block_text.draw()
-    win.flip()
+    win.flip() 
     event.waitKeys(keyList=['space'])
 
     fix.setText('+')
@@ -249,7 +250,8 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
         image.draw()
         win.flip()
     win.flip()
-    print ('was presented for', trialClock.getTime())
+    stimuli_prsentTime = round(trialClock.getTime(),4)
+    print ('was presented for', stimuli_prsentTime)
     
     
     done=False
@@ -262,9 +264,9 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
     while not done:
         captured_stringbottom, pcaptured_stringbottom, bigLetter, twoLetter = returnNewString(captured_stringbottom, pcaptured_stringbottom)
         
-        CapturedResponseString.setText(captured_stringbottom)
-        CapturedResponseString.draw()
-        
+        # CapturedResponseString.setText(captured_stringbottom)
+        # CapturedResponseString.draw()
+        updateTheResponse(captured_stringbottom)
         win.flip()
         
         keys = event.getKeys(keyList=['return', 'escape'], timeStamped=trialClock)
@@ -296,21 +298,22 @@ def runTrial(training=False, trialInfo=None, nFrames=15, strictResponse=True, bl
     # It is good to save all information that you will be keeping for data analysis (image code, reference numers, etc.) 
     if training == False:
         with open(alternative_filename, 'a') as f:
-            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n" % (expInfo['participant'],
-                                                                                       expInfo['sex'],
-                                                                                       expInfo['handness'],
-                                                                                       captured_stringbottom, 
-                                                                                       pk1, 
-                                                                                       rt1, 
-                                                                                       training, 
-                                                                                       trial['imageFile'],
-                                                                                       trial['N_disk'],
-                                                                                       trial['CrowdingCons'],
-                                                                                       strictResponse,
-                                                                                       blockNo,
-                                                                                       expInfo['expName'],
-                                                                                       expInfo['blockOrder'],
-                                                                                       (b+1))
+            line = "%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, \n" % (expInfo['participant'],
+                                                                                           expInfo['sex'],
+                                                                                           expInfo['handness'],
+                                                                                           captured_stringbottom, 
+                                                                                           pk1, 
+                                                                                           rt1, 
+                                                                                           training, 
+                                                                                           trial['imageFile'],
+                                                                                           trial['N_disk'],
+                                                                                           trial['CrowdingCons'],
+                                                                                           strictResponse,
+                                                                                           blockNo,
+                                                                                           expInfo['expName'],
+                                                                                           expInfo['blockOrder'],
+                                                                                           (b+1),
+                                                                                           stimuli_prsentTime)
             f.write(line)
 
     event.clearEvents()
@@ -380,21 +383,22 @@ filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\group%s_participant%s_da
 alternative_filename = currentDir + os.sep + u'data_Crwdng_Nmrsty1\\alternative_group%s_participant%s_date%s' % (expInfo['group'], expInfo['participant'], expInfo['date'])
 ## NICE TO HAVE A HEADER
 with open(alternative_filename, 'a', newline = '') as f:
-    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, \n" % ('participant_N',
-                                                                      'sex',
-                                                                      'handness',
-                                                                      'response', 
-                                                                      'pk',
-                                                                      'reactiontime', 
-                                                                      'training', 
-                                                                      'Display',
-                                                                      'Numerosity', 
-                                                                      'Crowding', 
-                                                                      'strictResponse',
-                                                                      'blockNo', 
-                                                                      'expName',
-                                                                      'blockOrder',
-                                                                      'whichBlock')
+    firstline = "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s, \n" % ('participant_N',
+                                                                         'sex',
+                                                                         'handness',
+                                                                         'response', 
+                                                                         'pk',
+                                                                         'reactiontime', 
+                                                                         'training', 
+                                                                         'Display',
+                                                                         'Numerosity', 
+                                                                         'Crowding', 
+                                                                         'strictResponse',
+                                                                         'blockNo', 
+                                                                         'expName',
+                                                                         'blockOrder',
+                                                                         'whichBlock',
+                                                                         'stimuliPresnetation(ms)')
     f.write(firstline)
 
 # An ExperimentHandler isn't essential but helps with data saving
@@ -432,13 +436,13 @@ else:
 
 # initialize some components
 CapturedResponseString = visual.TextStim(win,
-                                        units     = 'pix',
-                                        height    = 20,
-                                        pos       = [0, 0],
-                                        text      = '',
-                                        alignHoriz= 'left',
-                                        alignVert = 'center',
-                                        color     = 'white')
+                                         units     = 'pix',
+                                         height    = 20,
+                                         pos       = [0, 0],
+                                         text      = '',
+                                         alignHoriz= 'left',
+                                         alignVert = 'center',
+                                         color     = 'white')
 
 image = visual.ImageStim(win=win, pos=(0, 0), interpolate=True)
 
@@ -469,7 +473,8 @@ for b in range(startingBlockNumber,len(blocks)):
                blocks['Number2'][b],
                blocks['Number3'][b],
                blocks['Number4'][b],
-               blocks['Number5'][b])
+               blocks['Number5'][b],
+               blockN= b)
 
     trials = data.TrialHandler(nReps       = 1, 
                                method      = 'random',
