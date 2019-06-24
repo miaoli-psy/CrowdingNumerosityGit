@@ -65,8 +65,8 @@ def drawEllipseT (e_posi, ka, kb, crowding_cons, newWindowSize, loop_number):
         e.set_clip_box(ax.bbox)
         e.set_alpha(np.random.rand())
         e.set_facecolor(np.random.rand(3))
-    ax.set_xlim([-800, 800])
-    ax.set_ylim([-500, 500])
+    ax.set_xlim([-800, 800]) #TODO
+    ax.set_ylim([-500, 500]) #TODO
     ax.set_title('c_%s_wS_%s_eS_%s_%s_E.png' %(crowding_cons,newWindowSize,ka,kb))
     try:
         loop_number
