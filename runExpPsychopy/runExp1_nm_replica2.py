@@ -28,7 +28,7 @@ def updateTheResponse(captured_string):
     CapturedResponseString.draw()
 
 def returnNewString(captured_string,print_string,bigLetter = False,twoLetter=False):
-    for key in event.getKeys(keyList=['escape','delete', 'backspace','num_1', 'num_2', 'num_3', 'num_4', 'num_5', 'num_6', 'num_7', 'num_8', 'num_9', 'num_0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0']):
+    for key in event.getKeys():
         if key in ['escape']:
             win.close()
             core.quit()
