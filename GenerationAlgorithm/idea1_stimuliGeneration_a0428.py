@@ -118,4 +118,4 @@ def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka
             drawER = VirtualEllipseFunc.m_drawEllipses.drawEllipseT(taken_posi, ka, kb, crowding_cons,newWindowSize, loop_number)
         else:
             drwaET = VirtualEllipseFunc.m_drawEllipses.drawEllipse(taken_posi, ka, kb, crowding_cons,newWindowSize, loop_number)
-# runStimuliGeneration(1,2,0.3)
+runStimuliGeneration((crowding_cons = 0, newWindowSize = 0.5, visualization = True, ka = 0.25, kb = 0.1,loop_number = 1)
