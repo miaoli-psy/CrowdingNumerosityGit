@@ -23,8 +23,8 @@ if  crowding_cons == 2:
     ellipse_ka = 0.158
     ellipse_kb = 0.158
 
-# drawEllipseFig = False
-drawEllipseFig = True
+drawEllipseFig = False
+# drawEllipseFig = True
 
 newWindowSize = 0.3
 # newWindowSize = 0.4
@@ -32,7 +32,7 @@ newWindowSize = 0.3
 # newWindowSize = 0.6
 # newWindowSize = 0.7
 
-runN = 20 # run times
+runN = 2 # run times
 # =============================================================================
 # run with pool
 # =============================================================================

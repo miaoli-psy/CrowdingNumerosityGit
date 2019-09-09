@@ -32,6 +32,7 @@ from itertools import combinations
 # =============================================================================
 # Some global variables (100pix = 3.75cm = 3.75 deg in this setting)
 # =============================================================================
+
 def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka = 0.25, kb = 0.1,loop_number = 1):
     
     if crowding_cons == 1:
@@ -48,7 +49,6 @@ def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka
         pass
     else:
         raise NameError ('crowding_cons should be 0,1 or 2 for no-crowding, crowding and references')
-    
     
     #define a smaller visual window (presentation area)
     
@@ -115,7 +115,7 @@ def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka
     if visualization == True:
         '''see ellipses'''
         if crowding_cons == 1: #crowding = 1, nocrowding = 0
-            drawER = VirtualEllipseFunc.m_drawEllipses.drawEllipseT(taken_posi, ka, kb, crowding_cons,newWindowSize, loop_number)
+            drawER = VirtualEllipseFunc.m_drawEllipses.drawEllipses([],taken_posi, ka, kb, crowding_cons,newWindowSize, loop_number)
         else:
-            drwaET = VirtualEllipseFunc.m_drawEllipses.drawEllipse(taken_posi, ka, kb, crowding_cons,newWindowSize, loop_number)
-runStimuliGeneration((crowding_cons = 0, newWindowSize = 0.5, visualization = True, ka = 0.25, kb = 0.1,loop_number = 1)
+            drwaET = VirtualEllipseFunc.m_drawEllipses.drawEllipses(taken_posi,[],ka, kb, crowding_cons,newWindowSize, loop_number)
+# runStimuliGeneration(crowding_cons = 1, newWindowSize = 0.5, visualization = True, ka = 0.25, kb = 0.1,loop_number = 1)
