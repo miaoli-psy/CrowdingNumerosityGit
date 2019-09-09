@@ -2,7 +2,7 @@ import numpy as np
 import math
 from scipy.spatial import distance
 from shapely.geometry.polygon import LinearRing
-from math import atan2, pi
+from math import atan2, pi, sin, cos
 
 def generatePosiblePositions(grid_dimention_x = 101, grid_dimention_y = 75, linelength = 10):
 
@@ -59,6 +59,15 @@ def defineVirtualEllipses(coordinate,ka,kb):
 
     return V_ellipse
 
+def rotateposi(centralPosi, toRotatePosi, theta = pi/2):
+    '''
+    This fucntion caculates the coordinate that rotate
+    given position (x1, y1) anticlockwise theta degree 
+    around (x0, y0)
+    '''
+    x2 = (toRotatePosi[0]-centralPosi[0])*cos(theta) - (toRotatePosi[1]-centralPosi[1])*sin(theta) + centralPosi[0]
+    y2 = (toRotatePosi[0]-centralPosi[0])*sin(theta) + (toRotatePosi[1]-centralPosi[1])*cos(theta) + centralPosi[1]
+    return (round((x2),1), round((y2),1))
 
 def caclulateNewList (random_disk_coordinate, taken_list, positions,ka,kb): 
     # global positions
@@ -76,6 +85,33 @@ def caclulateNewList (random_disk_coordinate, taken_list, positions,ka,kb):
         for_number = for_number + 1
         ellipses = [exist_e, virtual_e_2]
         intersectionXList, intersectionYList = ellipse_polyline_intersection(ellipses)
+        if len(intersectionXList) > 0:
+            positions.pop(-1)
+            return [0] #breakout the function and  go into the while loop to delete this position
+        else:
+            continue
+
+    taken_list.append(random_disk_coordinate)
+    #delete the the current position from the list positions and the corrosponding ellipses points.
+    positions.pop(-1)
+    return taken_list  #final list of position I want
+
+def caclulateNewList_2direction (random_disk_coordinate, taken_list, positions,ka,kb): 
+    # global positions
+    # (新生成的随机点，已经保存的点坐标list) # new random disk corrdinate, previous disk corrdinates list
+    '''
+    This function generate the final list that contains a group of disks coordinate. 
+    The newly selected disk position (with a virtual ellipse) will be inspected with all the exited virtual ellipses
+    Only the one without intersection could be reutrned.
+    '''
+    virtual_e_2 = defineVirtualEllipses(random_disk_coordinate,ka,kb)
+    
+    for_number = 0
+    for exist_n in taken_list: 
+        exist_e = defineVirtualEllipses(exist_n,ka,kb) #perivous ellipses  
+        for_number = for_number + 1
+        ellipses = [exist_e, virtual_e_2]
+        intersectionXList, intersectionYList = ellipse_polyline_intersection_full(ellipses)
         if len(intersectionXList) > 0:
             positions.pop(-1)
             return [0] #breakout the function and  go into the while loop to delete this position
