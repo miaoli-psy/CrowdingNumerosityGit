@@ -1,8 +1,7 @@
 # Happily Readme 
 code for Crowding&Numerosity
 >## GenerateAlgorithm
-_Randomly select a position according to 'half of Bouma's law', and draw a radial (or tangential) (virtual) ellipse with the position as ellipse center. Repeat the above procedure and get another virtual ellipse. Inspect whether the two ellipses are overlapped. If yes, abandon the second ellipse and repeat the above procedure. Repeat the above procedure and inspect the Nth ellipse is not overlapped with all exist ellipses until no possible ellipse can be drawn on the display.-- ellipse algorithm_
-
+Create radial and tangential placed ellipses that are not overlapped.
 - Idea1: fill display with raidal or tangential ellipses
 - Idea2: fill display with ellipse-crosses
 
