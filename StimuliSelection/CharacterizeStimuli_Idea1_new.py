@@ -46,8 +46,8 @@ stimuliPropertyToTest = 'avg_spacing'
 # stimuliPropertyToTest = 'density'
 
 #names to write
-ws = 0.4
-crowdingDis = 1
+ws = 0.7
+crowdingDis = 0
 
 # which file to read
 my_choice = dic_files[(ws,crowdingDis)]
@@ -243,20 +243,26 @@ writer.save()
 stimuliInfo_pivotT= pd.pivot_table(stimuliInfo_df, values = ['convexHull', 'averageE', 'aggregateSurface','occupancyArea','avg_spacing','density'], columns = ['N_disk'])
 stimuliInfo_pivotT.to_excel(folderOutputPath+'Idea1_pivotT_ws%s_crowdingcon%s.xlsx' %(ws, crowdingDis))
 
-# =============================================================================
+#%% =============================================================================
 # Plot distribution N_disk
 # =============================================================================
 
-# N_disk_dist = stimuliInfo_df.groupby('N_disk').size()
-# ax = N_disk_dist.plot.bar()
-# ax.set_xlabel("N_disk_ws%s_crowdingCon%s" %(ws, crowdingDis))
-# plt.savefig("N_disk_ws%s_crowdingCon%s.png" %(ws, crowdingDis))
+# count run times
+count_run_times = stimuliInfo_df.shape[0]
+print('ws%s_crowdingcons%s run' %(ws, crowdingDis), count_run_times, 'times')
 
-# # count run times
-# count_run_times = stimuliInfo_df.shape[0]
-# print('ws%s_crowdingcons%s run' %(ws, crowdingDis), count_run_times, 'times')
+fig, ax = plt.subplots()
+width = 0.5 # the width of the bars
+N_disk_dist = stimuliInfo_df.groupby('N_disk').size()
+ax = N_disk_dist.plot.bar()
+for p in ax.patches:
+    ax.annotate(str(p.get_height()), (p.get_x(), p.get_height()))
 
-# =============================================================================
+ax.set_xlabel("N_disk_ws%s_crowdingCon%s" %(ws, crowdingDis))
+ax.set_title('ws%s_crowdingcons%s run %stimes' %(ws, crowdingDis,count_run_times))
+plt.savefig("N_disk_ws%s_crowdingCon%s_idea1.png" %(ws, crowdingDis))
+
+#%% =============================================================================
 # Whehter normal distributed for each properties
 # =============================================================================
 def ecdf(data):
