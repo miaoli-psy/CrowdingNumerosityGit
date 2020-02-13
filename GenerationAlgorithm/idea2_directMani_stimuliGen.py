@@ -243,9 +243,9 @@ for k in empty_keys4:
 #combine radial dictionaries
 
 #radial_dic combine directly
-ds = [radial_dic_1, radial_dic_2]
+ds = [radial_dic_1_noempty, radial_dic_2_noempty]
 radial_dic = {}
-for k in radial_dic_1.keys():
+for k in radial_dic_1_noempty.keys():
     radial_dic[k] = tuple(radial_dic[k] for radial_dic in ds)
 
 #radial_dic combined by noempty dict - 2 list shares some same keys
