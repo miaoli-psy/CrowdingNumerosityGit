@@ -58,7 +58,13 @@ def defineVirtualEllipses(coordinate,ka,kb):
     V_ellipse = (coordinate[0],coordinate[1], ellipse_axis[0],ellipse_axis[1], angle_radial, angle_tangential)
 
     return V_ellipse
-
+def defineCircleRegion(coordinate, r):
+    angle_rad = atan2(coordinate[1],coordinate[0])
+    angle_radial = angle_rad*180/pi
+    angle_tangential = angle_radial + 90
+    V_circle = (coordinate[0],coordinate[1], r,r, angle_radial, angle_tangential)
+    
+    return V_circle
 def rotateposi(centralPosi, toRotatePosi, theta = pi/2):
     '''
     This fucntion caculates the coordinate that rotate
