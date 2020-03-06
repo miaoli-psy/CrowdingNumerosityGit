@@ -20,7 +20,7 @@ from itertools import combinations
 import matplotlib.pyplot as plt
 from shapely.geometry import Point, Polygon
 import copy
-from psychopy import core, monitors, visual
+#from psychopy import core, monitors, visual
 #%% =============================================================================
 # Run multiple times with os
 # =============================================================================
@@ -106,7 +106,7 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
         while_number = 0
         while len(positions) > 0: 
             disk_posi_new = positions[-1]
-            print(while_number)
+#            print(while_number)
             new_list = VirtualEllipseFunc.m_defineEllipses.caclulateNewList_2direction(disk_posi_new,taken_posi,positions,ka,kb)
             while_number = while_number + 1
         # print ("taken_list", taken_posi,"Numbers", len(taken_posi))
@@ -276,61 +276,81 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, tan_posi, ka, kb)
     
     ####0% paris
-    radial_dic_copy = copy.deepcopy(radial_dic) 
-    tan_dic_copy    = copy.deepcopy(tan_dic)
+    if len(taken_posi) == 29:
+        n_pairs,n_triplets,n_singel = 1, 14, 14
+    elif len(taken_posi) == 30:
+        n_pairs,n_triplets,n_singel = 0, 15, 15
+    elif len(taken_posi) == 31:
+        n_pairs,n_triplets,n_singel = 1, 15, 15
+    elif len(taken_posi) == 32:
+        n_pairs,n_triplets,n_singel = 0, 16, 16
+    elif len(taken_posi) == 33:
+        n_pairs,n_triplets,n_singel = 1, 16, 16
+    elif len(taken_posi) == 34:
+        n_pairs,n_triplets,n_singel = 0, 17, 17
     
-    chosen_posi_r = [] #choose some flowers to make triplets
-    chosen_posi_t = [] 
+    chosen_tri_posi_r = [] #choose some flowers to make triplets
+    chosen_tri_posi_t = []
+    chosen_sig_posi_r = [] #other flowers to have single disc
+    chosen_sig_posi_t = []
     
-    #calculate ingtigrate times:
-    if len(taken_posi)%2 == 0:
-        N = round(len(taken_posi)/2)
-    else:
-        N = round(len(taken_posi)/2)-1
-    
-    for n in range(0, N):
+    for n in range(0, n_triplets):
         #radial
-        random_key_r = random.choice(commonkeys_r_copy1)
-        chosen_posi_r.append(random_key_r)
-        commonkeys_r_copy1.remove(random_key_r)
+        random_key_r = random.choice(commonkeys_r_copy2)
+        chosen_tri_posi_r.append(random_key_r)
+        commonkeys_r_copy2.remove(random_key_r)
         #tan
-        random_key_t = random.choice(commonkeys_t_copy1)
-        chosen_posi_t.append(random_key_t)
-        commonkeys_t_copy1.remove(random_key_t)
+        random_key_t = random.choice(commonkeys_t_copy2)
+        chosen_tri_posi_t.append(random_key_t)
+        commonkeys_t_copy2.remove(random_key_t)
+        
+    chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
+    chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
+    
+    for n in range(0, n_singel):
+        #radial
+        random_key_r = random.choice(chosen_keys_r)
+        chosen_sig_posi_r.append(random_key_r)
+        chosen_keys_r.remove(random_key_r)
+        #tan
+        random_key_t = random.choice(chosen_keys_t)
+        chosen_sig_posi_t.append(random_key_t)
+        chosen_keys_t.remove(random_key_t)
     
     triplet_posi_c1 = []
     for central_posi, possible_posi in radial_dic_1_noempty.items():
-        if central_posi in chosen_posi_r:
+        if central_posi in chosen_tri_posi_r:
             triplet_posi_c1.append(random.choice(possible_posi))
     
     triplet_posi_c2 = []
     for central_posi, possible_posi in radial_dic_2_noempty.items():
-        if central_posi in chosen_posi_r:
+        if central_posi in chosen_tri_posi_r:
             triplet_posi_c2.append(random.choice(possible_posi))
     
     triplet_posi_nc1 = []
     for central_posi, possible_posi in tan_dic_1_noempty.items():
-        if central_posi in chosen_posi_t:
+        if central_posi in chosen_tri_posi_t:
             triplet_posi_nc1.append(random.choice(possible_posi))
     
     triplet_posi_nc2 = []
     for central_posi, possible_posi in tan_dic_2_noempty.items():
-        if central_posi in chosen_posi_t:
+        if central_posi in chosen_tri_posi_t:
             triplet_posi_nc2.append(random.choice(possible_posi))
-    #check if the number of ellipse cross is even or odd
-    if len(taken_posi)%2 == 0:
-        extra_posi_c_nopair  = triplet_posi_c1+triplet_posi_c2
-        extra_posi_nc_nopair = triplet_posi_nc1+triplet_posi_nc2
-    else:
-        #there will be an ellipse cross contains a pair of discs
-        f_key_r = random.choice(commonkeys_r_copy1)
-        f_posi_r = [random.choice(radial_dic[f_key_r])]
-        
-        f_key_t = random.choice(commonkeys_t_copy1)
-        f_posi_t = [random.choice(radial_dic[f_key_t])]
-        
-        extra_posi_c_nopair  = triplet_posi_c1+triplet_posi_c2 + f_posi_r
-        extra_posi_nc_nopair = triplet_posi_nc1+triplet_posi_nc2 + f_posi_t
+    
+    chosen_paris_posi_r = set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r)
+    chosen_paris_posi_t = set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t)
+    
+    pairs_r = []
+    pairs_t = []
+    for central_posi, possible_posi in radial_dic.items():
+        if central_posi in chosen_paris_posi_r:
+            pairs_r.append(random.choice(possible_posi))
+    for central_posi, possible_posi in tan_dic.items():
+        if central_posi in chosen_paris_posi_t:
+            pairs_t.append(random.choice(possible_posi))
+    
+    extra_posi_c_nopair  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
+    extra_posi_nc_nopair = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
     
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_nopair, ka, kb)
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_nopair, ka, kb)
@@ -577,7 +597,6 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
     #%% =============================================================================
     # psychopy display
     # =============================================================================
-    
     fullPairs_c  = taken_posi + radial_posi
     fullPairs_nc = taken_posi + tan_posi
     pairs75_c    = taken_posi + extra_posi_c_75pairs
@@ -650,7 +669,10 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
     with open('pairs25nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(csv_data_pairs25_nc)
-    # disk_radius = 3.82
+    return len(taken_posi)
+#a = runStimuliGeneration(0.6)
+
+# disk_radius = 3.82
 
 # # monitor specifications
 # monsize = [1024, 768]

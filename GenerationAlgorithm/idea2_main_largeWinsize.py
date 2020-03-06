@@ -26,7 +26,7 @@ drawEllipseFig = False
 newWindowSize = 0.6
 # newWindowSize = 0.7
 
-runN = 100 # run times
+runN = 50 # run times
 # =============================================================================
 # run with pool
 # =============================================================================
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     pool = mp.Pool()
     # pool.map(multiParaFunc, range(0,runN))
     # https://www.zhihu.com/question/52188800
-    for _ in tqdm(pool.imap_unordered(multiParaFunc, range(0,runN)), total=runN):#range(1,50) runs 49 times from 1 to 49
+    for _ in tqdm(pool.imap_unordered(multiParaFunc, range(1,runN)), total=runN):#range(1,50) runs 49 times from 1 to 49
         pass
     # multicore()
     pool.close()
