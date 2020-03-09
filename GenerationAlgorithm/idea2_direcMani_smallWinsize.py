@@ -280,15 +280,18 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
     chosen_sig_posi_r = [] #other flowers to have single disc
     chosen_sig_posi_t = []
     
+    if n_triplets > len(commonkeys_r):
+        return []
+    
     for n in range(0, n_triplets):
         #radial
-        random_key_r = random.choice(commonkeys_r_copy2)
+        random_key_r = random.choice(commonkeys_r_copy1)
         chosen_tri_posi_r.append(random_key_r)
-        commonkeys_r_copy2.remove(random_key_r)
+        commonkeys_r_copy1.remove(random_key_r)
         #tan
-        random_key_t = random.choice(commonkeys_t_copy2)
+        random_key_t = random.choice(commonkeys_t_copy1)
         chosen_tri_posi_t.append(random_key_t)
-        commonkeys_t_copy2.remove(random_key_t)
+        commonkeys_t_copy1.remove(random_key_t)
         
     chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
     chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
@@ -343,6 +346,7 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
     
     #%%
     ####75% paris
+    
     if len(taken_posi) == 17:
         n_pairs,n_triplets,n_singel = 13, 2, 2
     elif len(taken_posi) == 18:
@@ -360,7 +364,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
     chosen_sig_posi_t = []
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     for n in range(0, n_triplets):
         #radial
         random_key_r = random.choice(commonkeys_r_copy2)
@@ -423,6 +428,7 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_75pairs, ka, kb)
     
     ####50% paris
+    
     if len(taken_posi) == 17:
         n_pairs,n_triplets,n_singel = 9, 4, 4
     elif len(taken_posi) == 18:
@@ -441,7 +447,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
     chosen_sig_posi_t = []
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     for n in range(0, n_triplets):
         #radial
         random_key_r = random.choice(commonkeys_r_copy3)
@@ -521,7 +528,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
     chosen_sig_posi_t = []
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     for n in range(0, n_triplets):
         #radial
         random_key_r = random.choice(commonkeys_r_copy4)
