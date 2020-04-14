@@ -112,7 +112,7 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
         # print ("taken_list", taken_posi,"Numbers", len(taken_posi))
         # generation = False
         if newWindowSize == 0.6:
-            if len(taken_posi)> 34 or len(taken_posi) < 29:
+            if len(taken_posi)> 33 or len(taken_posi) < 33:
                 generation = True
             else:
                 generation =False
@@ -274,7 +274,7 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
     
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, radial_posi, ka, kb)
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, tan_posi, ka, kb)
-    
+
     ####0% paris
     if len(taken_posi) == 29:
         n_pairs,n_triplets,n_singel = 1, 14, 14
@@ -288,7 +288,8 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
         n_pairs,n_triplets,n_singel = 1, 16, 16
     elif len(taken_posi) == 34:
         n_pairs,n_triplets,n_singel = 0, 17, 17
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
@@ -296,13 +297,13 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
     
     for n in range(0, n_triplets):
         #radial
-        random_key_r = random.choice(commonkeys_r_copy2)
+        random_key_r = random.choice(commonkeys_r_copy1)
         chosen_tri_posi_r.append(random_key_r)
-        commonkeys_r_copy2.remove(random_key_r)
+        commonkeys_r_copy1.remove(random_key_r)
         #tan
-        random_key_t = random.choice(commonkeys_t_copy2)
+        random_key_t = random.choice(commonkeys_t_copy1)
         chosen_tri_posi_t.append(random_key_t)
-        commonkeys_t_copy2.remove(random_key_t)
+        commonkeys_t_copy1.remove(random_key_t)
         
     chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
     chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
@@ -368,7 +369,8 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
         n_pairs,n_triplets,n_singel = 25, 4, 4
     elif len(taken_posi) == 34:
         n_pairs,n_triplets,n_singel = 24, 5, 5
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
@@ -448,7 +450,8 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
         n_pairs,n_triplets,n_singel = 17, 8, 8
     elif len(taken_posi) == 34:
         n_pairs,n_triplets,n_singel = 16, 9, 9
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
@@ -528,7 +531,8 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
         n_pairs,n_triplets,n_singel = 9, 12, 12
     elif len(taken_posi) == 34:
         n_pairs,n_triplets,n_singel = 8, 13, 13
-    
+    if n_triplets > len(commonkeys_r):
+        return []
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
     chosen_sig_posi_r = [] #other flowers to have single disc
@@ -669,7 +673,7 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.
     with open('pairs25nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(csv_data_pairs25_nc)
-    return len(taken_posi)
+#    return len(taken_posi), len(extra_posi_c_nopair), len(extra_posi_nc_nopair)
 #a = runStimuliGeneration(0.6)
 
 # disk_radius = 3.82

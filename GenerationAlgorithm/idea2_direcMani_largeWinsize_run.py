@@ -31,97 +31,98 @@ import copy
 #     #print('Usage: python loop_times')
 #     #sys.exit(0)
 #%% =============================================================================
-# Some global variables (100pix = 3.75cm = 3.75 deg in this setting)
-# =============================================================================
-percentage_extra = 1#How many disc to add
-r = 100 #The radius of protected fovea area
-#%% =============================================================================
 # Stimuli generation
 # =============================================================================
 # def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.1,loop_number = 1):
-newWindowSize = 0.6
+windowsize = 0.4
 visualization = True
 ka = 0.25
 kb = 0.1
 loop_number = 1
 r = 100 #The radius of protected fovea area
 
-grid_dimention_x = 101
-grid_dimention_y = 75
-linelength = 10
-start_x = -0.5*linelength*grid_dimention_x + 0.5*linelength
-start_y = -0.5*linelength*grid_dimention_y + 0.5*linelength
-generation = True
-while generation == True:
-    positions =[]
-    for x_count in range(0, grid_dimention_x):
-        new_x = start_x + x_count*linelength
-        for y_count in range(0, grid_dimention_y):
-            new_y = start_y + y_count*linelength
+def getallposi(grid_x = 101, grid_y = 75, linelength = 10):
+    '''get full positions in a dimention of grid_x*grid_y'''
+    start_x = -0.5*linelength*grid_x + 0.5*linelength
+    start_y = -0.5*linelength*grid_y + 0.5*linelength
+    positions = []
+    for x in range(0, grid_x):
+        new_x = start_x + x*linelength
+        for y in range(0, grid_y):
+            new_y = start_y + y*linelength
             positions.append((new_x, new_y))
-    
-    '''(0, 0) should not be in the positions list'''
     try:
-        positions.remove((0,0))
+        positions.remove((0,0))#remove the center
     except ValueError:
         pass
+    return positions
+
+def getfovealemptyposi(fovelr = 100):
+    '''get positions around fovel region'''
+    fullposi  = getallposi() #get full positon lists
+    fovealemptyposi = []
+    for p in fullposi:
+        if math.sqrt((p[0]**2) + (p[1]**2)) < fovelr:
+            fovealemptyposi.append(p)
+    return fovealemptyposi
+
+def getallowedposi(winsize = windowsize):
+    '''get positions for given windowsize'''
+    fullposi = getallposi() #get full postion lists
     
-    ''' Define and remove a fovea area (a circle) of r == ??'''
-    del_p = []
-    tempList = positions.copy()
-    for tempP in positions:
-        if math.sqrt((tempP[0]**2) + (tempP[1]**2)) < r:
-            del_p.append(tempP)
-            try:
-                tempList.remove(tempP)
-            except ValueError:
-                pass
-    positions = tempList
-    
-    '''define a smaller visual window (presentation area)'''
-    maxCorrdinate = max(positions)
-    del_p2 = []
-    tempList2 = positions.copy()
-    for outPosi in positions:
-        if abs(outPosi[0]) > maxCorrdinate[0]*newWindowSize or abs(outPosi[1]) > maxCorrdinate[1]*newWindowSize:
-            del_p2.append(outPosi)
-            try:
-                tempList2.remove(outPosi)
-            except ValueError:
-                pass
-    positions = tempList2
-    # positions_copy = copy.deepcopy(positions)
+    ###remove the foveal position
+    fovealemptyposi = getfovealemptyposi()
+    for p in fovealemptyposi:
+        fullposi.remove(p)
+        
+    ###remove all positions outsite the defined windowsize
+    fullposi_t = copy.deepcopy(fullposi) #deepcopy, without influence to the inital list
+    maxcorrdinate = max(fullposi) #get the corridinate of the furtherest posi
+    for p in fullposi_t:
+        if abs(p[0]) > maxcorrdinate[0]*winsize or abs(p[1])> maxcorrdinate[1]*winsize:
+            fullposi.remove(p)
+    return fullposi
+#%% =============================================================================
+# get the display
+# =============================================================================
+generation = True
+while generation == True:
+    positions = getallowedposi()
+    presentaiton_area = copy.deepcopy(positions)
     random.shuffle(positions)
     
-    # presentaion area - winthin the winsize, no foveal
-    presentaiton_area = copy.deepcopy(positions)
-
-
-#first random disk
-    disk_posi = positions[-1] #random.choice(positions)
+    #first random disk
+    disk_posi = positions[-1] 
+    #virtual_e1 = VirtualEllipseFunc.m_defineEllipses.defineVirtualEllipses(disk_posi,ka,kb)
+    taken_posi = []
+    taken_posi.append(disk_posi)
     positions.pop(-1)
-    virtual_e1 = VirtualEllipseFunc.m_defineEllipses.defineVirtualEllipses(disk_posi,ka,kb)
-    taken_posi = [disk_posi]
+    
     #all other disks
     while_number = 0
     while len(positions) > 0: 
         disk_posi_new = positions[-1]
-        print(while_number)
-        new_list = VirtualEllipseFunc.m_defineEllipses.caclulateNewList_2direction(disk_posi_new,taken_posi,positions,ka,kb)
+        VirtualEllipseFunc.m_defineEllipses.caclulateNewList_2direction(disk_posi_new,taken_posi,positions,ka,kb)
         while_number = while_number + 1
-    # print ("taken_list", taken_posi,"Numbers", len(taken_posi))
-#    generation = False
-    if newWindowSize == 0.6:
+        print(while_number)
+
+    taken_posi = copy.deepcopy(taken_posi) #TODO
+    print("taken_list", taken_posi,"Numbers", len(taken_posi))
+    
+    #generation = False
+    if windowsize == 0.6:
         if len(taken_posi)> 34 or len(taken_posi) < 29:
             generation = True
         else:
-             generation =False
-    # if newWindowSize == 0.3:
-    #     if len(taken_posi)> 16 or len(taken_posi) < 11:
-    #         generation = True
-    #     else:
-    #         generation =False
-#Add extra disks to non-overlap areas
+            generation =False
+
+    if windowsize == 0.4:
+        if len(taken_posi)> 22 or len(taken_posi) < 17:
+            generation = True
+        else:
+            generation =False
+VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, [], ka, kb)
+#%%
 finalE = [] #all ellipses that have been drawn
 for new_posi in taken_posi:
     finalE0 =  VirtualEllipseFunc.m_defineEllipses.defineVirtualEllipses(new_posi,ka,kb)

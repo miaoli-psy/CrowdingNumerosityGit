@@ -15,11 +15,11 @@ from scipy.spatial import distance, ConvexHull
 import VirtualEllipseFunc.m_defineEllipses
 import VirtualEllipseFunc.m_drawEllipses
 #from itertools import combinations
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 #from shapely.geometry import Point, Polygon
 #import copy
 #from psychopy import core, monitors, visual
-#from matplotlib.patches import Ellipse
+from matplotlib.patches import Ellipse
 # =============================================================================
 # used functions
 # =============================================================================
@@ -144,8 +144,9 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 29, kb = 29,l
     with open('purerandom_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
         writer = csv.writer(csvfile)
         writer.writerow(csv_data)
-
-#runStimuliGeneration(newWindowSize = 0.6, visualization = True, ka = 29, kb = 29,loop_number = 1)
+    return taken_posi
+#
+#taken_posi = runStimuliGeneration(newWindowSize = 0.6, visualization = True, ka = 29, kb = 29,loop_number = 1)
 #def drawEllipse (e_posi, ka, kb, crowding_cons, newWindowSize, loop_number): 
 #    """
 #    This function allows to draw more than one ellipse. The parameter is 
@@ -190,10 +191,10 @@ def runStimuliGeneration(newWindowSize, visualization = True, ka = 29, kb = 29,l
 #    #坐标不可见
 #    ax.axes.get_yaxis().set_visible(False)
 #    ax.axes.get_xaxis().set_visible(False)
-#    
+    
 
-#drawEllipse (taken_posi, ka, kb, 2, newWindowSize, loop_number)
-
+#drawEllipse(taken_posi, ka=0.25, kb = 0.1, crowding_cons = 2, newWindowSize = 0.6, loop_number =1)
+#
 #disk_radius = 3.82
 #
 ## monitor specifications

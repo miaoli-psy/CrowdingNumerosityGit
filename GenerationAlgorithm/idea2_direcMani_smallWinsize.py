@@ -94,7 +94,7 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         
         #generation = False
         if windowsize == 0.4:
-            if len(taken_posi)> 22 or len(taken_posi) < 17:
+            if len(taken_posi)> 19 or len(taken_posi) < 19:
                 generation = True
             else:
                 generation =False

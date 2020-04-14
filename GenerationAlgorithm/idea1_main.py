@@ -37,7 +37,7 @@ runN = 2 # run times
 # run with pool
 # =============================================================================
 start = time.time()
-multiParaFunc = partial(idea1_stimuliGeneration_a0428.runStimuliGeneration,crowding_cons, newWindowSize, drawEllipseFig, ellipse_ka, ellipse_kb) 
+multiParaFunc = partial(idea1_stimuliGeneration_a0428.runStimuliGeneration, crowding_cons, newWindowSize, drawEllipseFig, ellipse_ka, ellipse_kb) 
 # def runStimuliGeneration(crowding_cons, newWindowSize, visualization = False, ka = 0.25, kb = 0.1,loop_number=1):
 
 if __name__ == '__main__':
