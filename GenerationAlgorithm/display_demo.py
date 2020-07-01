@@ -39,7 +39,12 @@ extra_c_0p = [(130.0, -120.0), (200.0, -90.0), (-120.0, 100.0), (150.0, -50.0), 
 extra_nc_0p = [(170.0, -140.0), (-170.0, 100.0), (-80.0, 160.0), (-90.0, -30.0), (-70.0, -90.0), (-120.0, 30.0), (70.0, 80.0), (50.0, 110.0), (110.0, -170.0), (-110.0, 150.0), (-30.0, 180.0), (-100.0, 0.0), (-90.0, -70.0), (-100.0, 60.0), (90.0, 40.0), (80.0, 90.0), (80.0, 160.0), (160.0, -60.0), (-270.0, 120.0), (130.0, 50.0), (210.0, 140.0), (-250.0, -20.0), (-80.0, 70.0), (150.0, 70.0), (-160.0, -60.0), (270.0, 180.0), (70.0, -130.0), (-150.0, 30.0), (-270.0, -150.0), (-120.0, -130.0), (20.0, 110.0), (-20.0, -100.0), (-30.0, 210.0)]
 
 
-# =============================================================================
+baseline = [(-120.0, -20.0), (-270.0, 30.0), (-40.0, -180.0), (-10.0, 180.0), (-160.0, 10.0), (-110.0, -70.0), (-80.0, -90.0), (-50.0, 120.0), (-130.0, 60.0), (70.0, 130.0), (-150.0, -120.0), (250.0, 160.0), (-160.0, 160.0), (-230.0, 200.0), (-230.0, -70.0), (230.0, -200.0), (110.0, 220.0), (110.0, 90.0), (-80.0, 210.0), (80.0, -160.0), (50.0, 190.0), (-90.0, 140.0), (-110.0, -160.0), (-270.0, -220.0), (140.0, 60.0), (-170.0, -50.0), (150.0, -160.0), (300.0, 60.0), (100.0, 10.0), (-300.0, 120.0), (120.0, -100.0), (20.0, -200.0), (30.0, 140.0), (-60.0, -120.0), (210.0, -40.0), (190.0, -110.0), (300.0, -70.0), (50.0, -90.0), (-10.0, 130.0), (-190.0, 50.0), (-100.0, 10.0), (20.0, -120.0), (140.0, 150.0), (220.0, 50.0), (80.0, -220.0), (100.0, -50.0), (150.0, 10.0), (-80.0, 60.0), (140.0, -30.0), (-160.0, -200.0), (90.0, 60.0), (-20.0, -120.0), (-100.0, 90.0), (10.0, 100.0), (-290.0, -120.0), (70.0, 90.0), (180.0, 100.0), (80.0, -110.0), (-210.0, -10.0), (-220.0, 110.0), (-210.0, -140.0), (100.0, -20.0), (-60.0, 80.0), (-90.0, -220.0), (190.0, 220.0), (40.0, 100.0)]
+
+
+exp1_c  = [(20.0, -170.0), (230.0, -100.0), (-60.0, -140.0), (300.0, -20.0), (-110.0, 160.0), (60.0, 140.0), (230.0, 90.0), (100.0, 70.0), (120.0, -210.0), (-20.0, 210.0), (-200.0, 100.0), (-70.0, 80.0), (-250.0, -160.0), (100.0, -80.0), (-260.0, 30.0), (-260.0, 180.0), (210.0, -10.0), (-140.0, -160.0), (300.0, 160.0), (-180.0, -10.0), (-80.0, 130.0), (170.0, -100.0), (180.0, 90.0), (-140.0, 80.0), (-20.0, -110.0), (50.0, -100.0), (-100.0, -60.0), (-110.0, 60.0), (250.0, -180.0), (140.0, 20.0), (140.0, 180.0), (-40.0, -200.0), (150.0, -50.0), (-140.0, 0.0), (-10.0, 130.0), (-130.0, -70.0), (-150.0, 210.0), (130.0, 100.0), (40.0, 110.0), (80.0, -60.0), (200.0, 210.0), (100.0, -10.0), (-140.0, -220.0), (-100.0, -10.0), (90.0, -130.0), (-60.0, -80.0), (-10.0, 100.0), (-220.0, -100.0), (80.0, 170.0), (-10.0, 170.0), (20.0, -130.0), (-290.0, -220.0), (100.0, -170.0)]
+exp1_nc = [(50.0, 150.0), (-170.0, 140.0), (0.0, -150.0), (-190.0, 10.0), (-180.0, 80.0), (200.0, -50.0), (100.0, -140.0), (290.0, 80.0), (220.0, 150.0), (150.0, -70.0), (80.0, -210.0), (-210.0, -60.0), (-120.0, 30.0), (280.0, -180.0), (-120.0, 170.0), (-260.0, -210.0), (140.0, 190.0), (-110.0, -70.0), (130.0, 10.0), (-50.0, -210.0), (150.0, 80.0), (0.0, 100.0), (-60.0, -110.0), (-280.0, 60.0), (-300.0, 210.0), (-60.0, 190.0), (-90.0, 80.0), (-120.0, -30.0), (-130.0, -130.0), (10.0, 180.0), (40.0, -110.0), (210.0, -220.0), (300.0, -30.0), (-60.0, 120.0), (-140.0, -200.0), (130.0, 40.0), (110.0, -80.0), (-20.0, -100.0), (-300.0, -30.0), (90.0, 60.0), (-200.0, -110.0), (90.0, 110.0), (-70.0, -80.0), (30.0, -220.0), (110.0, -30.0), (70.0, -80.0), (-30.0, 110.0), (230.0, 20.0), (300.0, -110.0), (-100.0, 50.0), (-60.0, 80.0), (-100.0, 0.0), (50.0, 90.0)]
+
 # draw ellipse
 # =============================================================================
 def drawEllipse_full(e_posi, extra_posi, ka, kb,ellipseColor_r = 'orangered', ellipseColor_t = 'lime'):
@@ -84,10 +89,10 @@ def drawEllipse_full(e_posi, extra_posi, ka, kb,ellipseColor_r = 'orangered', el
         
         #show the discs on the ellipses-flower
         for dot in e_posi:
-            plt.plot(dot[0],dot[1], color = 'k', marker ='o')
+            plt.plot(dot[0],dot[1], color = 'k', marker ='o', markersize = 2 )
         # plt.show()
         for dot1 in extra_posi:
-            plt.plot(dot1[0],dot1[1],color = 'r', marker = 'o')
+            plt.plot(dot1[0],dot1[1],color = 'r', marker = 'o', markersize = 2)
         # plt.show()
         # ax.set_xlim([-800, 800])
         # ax.set_ylim([-500, 500])
@@ -103,20 +108,74 @@ def drawEllipse_full(e_posi, extra_posi, ka, kb,ellipseColor_r = 'orangered', el
         #坐标不可见
         ax.axes.get_yaxis().set_visible(False)
         ax.axes.get_xaxis().set_visible(False)
-        plt.show()
+        ax.patch.set_facecolor('lightgray')
         
-        try:
-            loop_number
-        except NameError:
-            var_exists = False
-        else:
-            var_exists = True
-            # plt.savefig('%s_wS_%s_eS_%s_%s_E.png' %(loop_number,newWindowSize,ka,kb))
+        plt.savefig('try.png',bbox_inches = 'tight', pad_inches = 0)
 
-drawEllipse_full(centerposi, [], 0.25, 0.1)
+def drawEllipses (posi, ka, kb, crowding_cons = 1, ellipseColor = 'orangered', ellipsetransp = 0.5):
+
+    eccentricities2 = []
+    for i in range(len(posi)):
+        eccentricities0 = distance.euclidean(posi[i], (0,0))
+        eccentricities2.append(eccentricities0)
+    #radial
+    angle_deg3 = []
+    for ang in range(len(posi)):
+        angle_rad0s = atan2(posi[ang][1],posi[ang][0])
+        angle_deg0s = angle_rad0s*180/pi
+        angle_deg3.append(angle_deg0s)
+        
+    my_e = [Ellipse(xy=posi[j], width=eccentricities2[j]*ka*2, height=eccentricities2[j]*kb*2, angle = angle_deg3[j])
+            for j in range(len(posi))]
+
+    fig, ax = plt.subplots(subplot_kw={'aspect': 'equal'})
+
+    for e in my_e:
+        ax.add_artist(e)
+        #random color?
+        e.set_clip_box(ax.bbox)
+        # e.set_alpha(np.random.rand())
+        e.set_alpha(ellipsetransp)
+        # e.set_facecolor(np.random.rand(3))
+        #change face color here
+        if ellipseColor == 'orangered':
+            e.set_facecolor('orangered') #'lime'
+        else:
+            e.set_facecolor('lime')
+        # e.set_facecolor('lime')
+    
+    # plot central discs
+    for dot in posi:
+        plt.plot(dot[0],dot[1], color = 'k', marker ='o', markersize = 2)
+    
+    plt.plot(0,0,color = 'k', marker = '+', markersize = 4)
+
+    #set x,y lim
+    ax.set_xlim([-400, 400])
+    ax.set_ylim([-260, 260])
+    #边框不可见
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['bottom'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    #坐标不可见
+    ax.axes.get_yaxis().set_visible(False)
+    ax.axes.get_xaxis().set_visible(False)
+    # set background color
+    ax.patch.set_facecolor('lightgray')
+    
+    plt.savefig('try.png',bbox_inches = 'tight', pad_inches = 0)
+
+
+
+#drawEllipse_full(centerposi, [], 0.25, 0.1)
 drawEllipse_full(centerposi, extra_c, 0.25, 0.1)
-drawEllipse_full(centerposi, extra_nc, 0.25, 0.1)
-drawEllipse_full(centerposi, extra_c_50p, 0.25, 0.1)
-drawEllipse_full(centerposi, extra_nc_50p, 0.25, 0.1)
-drawEllipse_full(centerposi, extra_c_0p, 0.25, 0.1)
-drawEllipse_full(centerposi, extra_nc_0p, 0.25, 0.1)
+#drawEllipse_full(centerposi, extra_nc, 0.25, 0.1)
+#drawEllipse_full(centerposi, extra_c_50p, 0.25, 0.1)
+#drawEllipse_full(centerposi, extra_nc_50p, 0.25, 0.1)
+#drawEllipse_full(centerposi, extra_c_0p, 0.25, 0.1)
+#drawEllipse_full(centerposi, extra_nc_0p, 0.25, 0.1)
+#drawEllipse_full(baseline, [], 0.15,0.15)
+#drawEllipses(exp1_c, 0.1, 0.25,  ellipseColor = '2')
+
+#drawEllipse_full(extra_nc,centerposi , 0.25, 0.1)
