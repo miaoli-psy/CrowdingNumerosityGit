@@ -92,12 +92,12 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         taken_posi = copy.deepcopy(taken_posi) #TODO
         print("taken_list", taken_posi,"Numbers", len(taken_posi))
         
-        #generation = False
-        if windowsize == 0.4:
-            if len(taken_posi)> 19 or len(taken_posi) < 19:
-                generation = True
-            else:
-                generation =False
+        generation = False
+#        if windowsize == 0.4:
+#            if len(taken_posi)> 19 or len(taken_posi) < 19:
+#                generation = True
+#            else:
+#                generation =False
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, [], ka, kb)
     #%% =============================================================================
     # extra discs
