@@ -92,12 +92,12 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         taken_posi = copy.deepcopy(taken_posi) #TODO
         print("taken_list", taken_posi,"Numbers", len(taken_posi))
         
-        generation = False
-#        if windowsize == 0.4:
-#            if len(taken_posi)> 19 or len(taken_posi) < 19:
-#                generation = True
-#            else:
-#                generation =False
+#        generation = False
+        if windowsize == 0.4:
+            if len(taken_posi)> 23 or len(taken_posi) < 23:
+                generation = True
+            else:
+                generation =False
     VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, [], ka, kb)
     #%% =============================================================================
     # extra discs
@@ -274,6 +274,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         n_pairs,n_triplets,n_singel = 1, 10, 10
     elif len(taken_posi) == 22:
         n_pairs,n_triplets,n_singel = 0, 11, 11
+    elif len(taken_posi) == 23:
+        n_pairs,n_triplets,n_singel = 1, 11, 11
     
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
@@ -359,6 +361,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         n_pairs,n_triplets,n_singel = 15, 3, 3
     elif len(taken_posi) == 22:
         n_pairs,n_triplets,n_singel = 16, 3, 3
+    elif len(taken_posi) == 23:
+        n_pairs,n_triplets,n_singel = 17, 3, 3
     
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
@@ -441,7 +445,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         n_pairs,n_triplets,n_singel = 11, 5, 5
     elif len(taken_posi) == 22:
         n_pairs,n_triplets,n_singel = 12, 5, 5
-    
+    elif len(taken_posi) == 23:
+        n_pairs,n_triplets,n_singel = 13, 5, 5
     
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
@@ -523,6 +528,8 @@ def runStimuliGeneration(windowsize, visualization = True, ka = 0.25, kb = 0.1,l
         n_pairs,n_triplets,n_singel = 5, 8, 8
     elif len(taken_posi) == 22:
         n_pairs,n_triplets,n_singel = 6, 8, 8
+    elif len(taken_posi) == 23:
+        n_pairs,n_triplets,n_singel = 7, 8, 8
     
     chosen_tri_posi_r = [] #choose some flowers to make triplets
     chosen_tri_posi_t = []
