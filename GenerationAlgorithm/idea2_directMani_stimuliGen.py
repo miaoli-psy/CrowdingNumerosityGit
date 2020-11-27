@@ -59,7 +59,7 @@ def get_display_properties(displayPositions):
 # Stimuli generation
 # =============================================================================
 # def runStimuliGeneration(newWindowSize, visualization = True, ka = 0.25, kb = 0.1,loop_number = 1):
-newWindowSize = 0.6
+newWindowSize = 0.4
 visualization = True
 ka = 0.25
 kb = 0.1
@@ -142,7 +142,7 @@ while generation == True:
         else:
             generation =False
     if newWindowSize == 0.4:
-        if len(taken_posi)> 22 or len(taken_posi) < 17:
+        if len(taken_posi)> 22 or len(taken_posi) < 22:
             generation = True
         else:
             generation =False
@@ -199,6 +199,15 @@ for count, i in enumerate(finalE, start = 1):
         # else: # outside ellipse cross
         #     out_ellispecross.append(posi)
 
+emptykey = []
+for k, v in tan_dic.items():
+    if len(v) == 0:
+       emptykey.append(k)
+
+if len(emptykey) != 0:
+    for k in emptykey:
+        del tan_dic[k]
+       
 #remove empty items in the dictionary
 radial_dic_1_noempty = copy.deepcopy(radial_dic_1)
 radial_dic_2_noempty = copy.deepcopy(radial_dic_2)
@@ -240,13 +249,38 @@ for k in empty_keys3:
 for k in empty_keys4:
     del tan_dic_2_noempty[k]
 
-#combine radial dictionaries
+#combine radial dictionaries#FIXME
 
 #radial_dic combine directly
-ds = [radial_dic_1_noempty, radial_dic_2_noempty]
-radial_dic = {}
-for k in radial_dic_1_noempty.keys():
-    radial_dic[k] = tuple(radial_dic[k] for radial_dic in ds)
+#ds = [radial_dic_1_noempty, radial_dic_2_noempty]
+#radial_dic = {}
+#for k in radial_dic_1_noempty.keys():
+#    radial_dic[k] = tuple(radial_dic[k] for radial_dic in ds)
+
+
+# radial_dic = {**radial_dic_1_noempty, **radial_dic_2_noempty}#FIXME
+
+def merge_tuple_list(list1, list2):
+    merged_set = set(list1).union(set(list2))
+    return list(merged_set)
+
+def merge_dicts(dict1:dict, dict2:dict):
+    # k: tuple(1, -1), v: list of tuples [(1,2),(2,1)]
+    res = dict()
+    # process (1) only k1 (2) both k1,k2
+    for k1, v1 in dict1.items():
+        if k1 in dict2:
+            v2 = dict2[k1]
+            res[k1] = merge_tuple_list(v1, v2)
+        else:
+            res[k1] = v1
+    # process: (1) only k2
+    for k2, v2 in dict2.items():
+        if k2 not in res:
+            res[k2] = v2
+    return res
+radial_dic = merge_dicts(radial_dic_1_noempty, radial_dic_2_noempty)
+
 
 #radial_dic combined by noempty dict - 2 list shares some same keys
 radial_dic_1_noempty_t = copy.deepcopy(radial_dic_1_noempty)
@@ -270,8 +304,8 @@ for key in tan_dic1_keys:
     if key in tan_dic2_keys:
         commonkeys_t.append(key)
 #items lists into 1
-for key, item in radial_dic.items():
-    radial_dic[key] = item[0]+item[1]
+#for key, item in radial_dic.items():
+#    radial_dic[key] = item[0]+item[1]
 
 commonkeys_r_copy1 = copy.deepcopy(commonkeys_r)
 commonkeys_t_copy1 = copy.deepcopy(commonkeys_t)
@@ -299,436 +333,436 @@ for central_posi, possible_posi in tan_dic.items():
 VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, radial_posi_100p, ka, kb)
 VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, tan_posi_100p, ka, kb)
 
-####75% paris
-if newWindowSize == 0.6:
-    if len(taken_posi) == 29:
-        n_pairs75,n_triplets75,n_singe75 = 21, 4, 4
-    elif len(taken_posi) == 30:
-        n_pairs75,n_triplets75,n_singe75 = 22, 4, 4
-    elif len(taken_posi) == 31:
-        n_pairs75,n_triplets75,n_singe75 = 21, 5, 5
-    elif len(taken_posi) == 32:
-        n_pairs75,n_triplets75,n_singe75 = 24, 4, 4
-    elif len(taken_posi) == 33:
-        n_pairs75,n_triplets75,n_singe75 = 25, 4, 4
-    elif len(taken_posi) == 34:
-        n_pairs75,n_triplets75,n_singe75 = 24, 5, 5
-
-if newWindowSize == 0.3:
-    if len(taken_posi) == 11:
-        n_pairs75,n_triplets75,n_singe75 = 9, 1, 1
-    elif len(taken_posi) == 12:
-        n_pairs75,n_triplets75,n_singe75 = 8, 2, 2
-    elif len(taken_posi) == 13:
-        n_pairs75,n_triplets75,n_singe75 = 9, 2, 2
-    elif len(taken_posi) == 14:
-        n_pairs75,n_triplets75,n_singe75 = 10, 2, 2
-    elif len(taken_posi) == 15:
-        n_pairs75,n_triplets75,n_singe75 = 11, 2, 2
-    elif len(taken_posi) == 16:
-        n_pairs75,n_triplets75,n_singe75 = 12, 2, 2
-
-if newWindowSize == 0.4:
-    if len(taken_posi) == 17:
-        n_pairs75,n_triplets75,n_singe75 = 13, 2, 2
-    elif len(taken_posi) == 18:
-        n_pairs75,n_triplets75,n_singe75 = 14, 2, 2
-    elif len(taken_posi) == 19:
-        n_pairs75,n_triplets75,n_singe75 = 15, 2, 2
-    elif len(taken_posi) == 20:
-        n_pairs75,n_triplets75,n_singe75 = 16, 2, 2
-    elif len(taken_posi) == 21:
-        n_pairs75,n_triplets75,n_singe75 = 15, 3, 3
-    elif len(taken_posi) == 22:
-        n_pairs75,n_triplets75,n_singe75 = 16, 3, 3
-chosen_tri_posi_r = [] #choose some flowers to make triplets
-chosen_tri_posi_t = []
-chosen_sig_posi_r = [] #other flowers to have single disc
-chosen_sig_posi_t = []
-
-for n in range(0, n_triplets75):
-    #radial
-    random_key_r = random.choice(commonkeys_r_copy2)
-    chosen_tri_posi_r.append(random_key_r)
-    commonkeys_r_copy2.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(commonkeys_t_copy2)
-    chosen_tri_posi_t.append(random_key_t)
-    commonkeys_t_copy2.remove(random_key_t)
-    
-chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
-chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
-
-for n in range(0, n_singe75):
-    #radial
-    random_key_r = random.choice(chosen_keys_r)
-    chosen_sig_posi_r.append(random_key_r)
-    chosen_keys_r.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(chosen_keys_t)
-    chosen_sig_posi_t.append(random_key_t)
-    chosen_keys_t.remove(random_key_t)
-
-triplet_posi_c1 = []
-for central_posi, possible_posi in radial_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c1.append(random.choice(possible_posi))
-
-triplet_posi_c2 = []
-for central_posi, possible_posi in radial_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c2.append(random.choice(possible_posi))
-
-triplet_posi_nc1 = []
-for central_posi, possible_posi in tan_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc1.append(random.choice(possible_posi))
-
-triplet_posi_nc2 = []
-for central_posi, possible_posi in tan_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc2.append(random.choice(possible_posi))
-
-chosen_paris_posi_r = set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r)
-chosen_paris_posi_t = set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t)
-
-pairs_r = []
-pairs_t = []
-for central_posi, possible_posi in radial_dic.items():
-    if central_posi in chosen_paris_posi_r:
-        pairs_r.append(random.choice(possible_posi))
-for central_posi, possible_posi in tan_dic.items():
-    if central_posi in chosen_paris_posi_t:
-        pairs_t.append(random.choice(possible_posi))
-
-extra_posi_c_75pairs  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
-extra_posi_nc_75pairs = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
-
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_75pairs, ka, kb)
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_75pairs, ka, kb)
-
-####50% paris
-if newWindowSize == 0.6:
-    if len(taken_posi) == 29:
-        n_pairs50,n_triplets50,n_singe50 = 15, 7, 7
-    elif len(taken_posi) == 30:
-        n_pairs50,n_triplets50,n_singe50 = 16, 7, 7
-    elif len(taken_posi) == 31:
-        n_pairs50,n_triplets50,n_singe50 = 15, 8, 8
-    elif len(taken_posi) == 32:
-        n_pairs50,n_triplets50,n_singe50 = 16, 8, 8
-    elif len(taken_posi) == 33:
-        n_pairs50,n_triplets50,n_singe50 = 17, 8, 8
-    elif len(taken_posi) == 34:
-        n_pairs50,n_triplets50,n_singe50 = 16, 9, 9
-
-if newWindowSize == 0.3:
-    if len(taken_posi) == 13:
-        n_pairs50,n_triplets50,n_singe50 = 7, 3, 3
-    elif len(taken_posi) == 14:
-        n_pairs50,n_triplets50,n_singe50 = 8, 3, 3
-    elif len(taken_posi) == 15:
-        n_pairs50,n_triplets50,n_singe50 = 7, 4, 4
-    elif len(taken_posi) == 16:
-        n_pairs50,n_triplets50,n_singe50 = 8, 4, 4
-    elif len(taken_posi) == 11:
-        n_pairs50,n_triplets50,n_singe50 = 5, 3, 3
-    elif len(taken_posi) == 12:
-        n_pairs50,n_triplets50,n_singe50 = 6, 3, 3
-
-if newWindowSize == 0.4:
-    if len(taken_posi) == 17:
-        n_pairs50,n_triplets50,n_singe50 = 9, 4, 4
-    elif len(taken_posi) == 18:
-        n_pairs50,n_triplets50,n_singe50 = 10, 4, 4
-    elif len(taken_posi) == 19:
-        n_pairs50,n_triplets50,n_singe50 = 9, 5, 5
-    elif len(taken_posi) == 20:
-        n_pairs50,n_triplets50,n_singe50 = 10, 5, 5
-    elif len(taken_posi) == 21:
-        n_pairs50,n_triplets50,n_singe50 = 11, 5, 5
-    elif len(taken_posi) == 22:
-        n_pairs50,n_triplets50,n_singe50 = 12, 5, 5
-chosen_tri_posi_r = [] #choose some flowers to make triplets
-chosen_tri_posi_t = []
-chosen_sig_posi_r = [] #other flowers to have single disc
-chosen_sig_posi_t = []
-
-for n in range(0, n_triplets50):
-    #radial
-    random_key_r = random.choice(commonkeys_r_copy3)
-    chosen_tri_posi_r.append(random_key_r)
-    commonkeys_r_copy3.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(commonkeys_t_copy3)
-    chosen_tri_posi_t.append(random_key_t)
-    commonkeys_t_copy3.remove(random_key_t)
-    
-chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
-chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
-
-for n in range(0, n_singe50):
-    #radial
-    random_key_r = random.choice(chosen_keys_r)
-    chosen_sig_posi_r.append(random_key_r)
-    chosen_keys_r.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(chosen_keys_t)
-    chosen_sig_posi_t.append(random_key_t)
-    chosen_keys_t.remove(random_key_t)
-
-triplet_posi_c1 = []
-for central_posi, possible_posi in radial_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c1.append(random.choice(possible_posi))
-
-triplet_posi_c2 = []
-for central_posi, possible_posi in radial_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c2.append(random.choice(possible_posi))
-
-triplet_posi_nc1 = []
-for central_posi, possible_posi in tan_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc1.append(random.choice(possible_posi))
-
-triplet_posi_nc2 = []
-for central_posi, possible_posi in tan_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc2.append(random.choice(possible_posi))
-
-chosen_paris_posi_r = list(set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r))
-chosen_paris_posi_t = list(set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t))
-
-pairs_r = []
-pairs_t = []
-for central_posi, possible_posi in radial_dic.items():
-    if central_posi in chosen_paris_posi_r:
-        pairs_r.append(random.choice(possible_posi))
-for central_posi, possible_posi in tan_dic.items():
-    if central_posi in chosen_paris_posi_t:
-        pairs_t.append(random.choice(possible_posi))
-
-extra_posi_c_50pairs  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
-extra_posi_nc_50pairs = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
-
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_50pairs, ka, kb)
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_50pairs, ka, kb)
-
-####25% paris
-if newWindowSize == 0.6:
-    if len(taken_posi) == 29:
-        n_pairs25,n_triplets25,n_singe25 = 7, 11, 11
-    elif len(taken_posi) == 30:
-        n_pairs25,n_triplets25,n_singe25 = 8, 11, 11
-    elif len(taken_posi) == 31:
-        n_pairs25,n_triplets25,n_singe25 = 7, 12, 12
-    elif len(taken_posi) == 32:
-        n_pairs25,n_triplets25,n_singe25 = 8, 12, 12
-    elif len(taken_posi) == 33:
-        n_pairs25,n_triplets25,n_singe25 = 9, 12, 12
-    elif len(taken_posi) == 34:
-        n_pairs25,n_triplets25,n_singe25 = 8, 13, 13
-
-if newWindowSize == 0.3:
-    if len(taken_posi) == 11:
-        n_pairs25,n_triplets25,n_singe25 = 3, 4, 4
-    elif len(taken_posi) == 12:
-        n_pairs25,n_triplets25,n_singe25 = 4, 4, 4
-    elif len(taken_posi) == 13:
-        n_pairs25,n_triplets25,n_singe25 = 3, 5, 5
-    elif len(taken_posi) == 14:
-        n_pairs25,n_triplets25,n_singe25 = 4, 5, 5
-    elif len(taken_posi) == 15:
-        n_pairs25,n_triplets25,n_singe25 = 3, 6, 6
-    elif len(taken_posi) == 16:
-        n_pairs25,n_triplets25,n_singe25 = 4, 6, 6
-
-if newWindowSize == 0.4:
-    if len(taken_posi) == 17:
-        n_pairs25,n_triplets25,n_singe25 = 5, 6, 6
-    elif len(taken_posi) == 18:
-        n_pairs25,n_triplets25,n_singe25 = 4, 7, 7
-    elif len(taken_posi) == 19:
-        n_pairs25,n_triplets25,n_singe25 = 5, 7, 7
-    elif len(taken_posi) == 20:
-        n_pairs25,n_triplets25,n_singe25 = 6, 7, 7
-    elif len(taken_posi) == 21:
-        n_pairs25,n_triplets25,n_singe25 = 5, 8, 8
-    elif len(taken_posi) == 22:
-        n_pairs25,n_triplets25,n_singe25 = 6, 8, 8
-chosen_tri_posi_r = [] #choose some flowers to make triplets
-chosen_tri_posi_t = []
-chosen_sig_posi_r = [] #other flowers to have single disc
-chosen_sig_posi_t = []
-
-for n in range(0, n_triplets25):
-    #radial
-    random_key_r = random.choice(commonkeys_r_copy4)
-    chosen_tri_posi_r.append(random_key_r)
-    commonkeys_r_copy4.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(commonkeys_t_copy4)
-    chosen_tri_posi_t.append(random_key_t)
-    commonkeys_t_copy4.remove(random_key_t)
-
-chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
-chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
-
-for n in range(0, n_singe25):
-    #radial
-    random_key_r = random.choice(chosen_keys_r)
-    chosen_sig_posi_r.append(random_key_r)
-    chosen_keys_r.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(chosen_keys_t)
-    chosen_sig_posi_t.append(random_key_t)
-    chosen_keys_t.remove(random_key_t)
-
-triplet_posi_c1 = []
-for central_posi, possible_posi in radial_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c1.append(random.choice(possible_posi))
-
-triplet_posi_c2 = []
-for central_posi, possible_posi in radial_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c2.append(random.choice(possible_posi))
-
-triplet_posi_nc1 = []
-for central_posi, possible_posi in tan_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc1.append(random.choice(possible_posi))
-
-triplet_posi_nc2 = []
-for central_posi, possible_posi in tan_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc2.append(random.choice(possible_posi))
-
-chosen_paris_posi_r = list(set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r))
-chosen_paris_posi_t = list(set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t))
-
-pairs_r = []
-pairs_t = []
-for central_posi, possible_posi in radial_dic.items():
-    if central_posi in chosen_paris_posi_r:
-        pairs_r.append(random.choice(possible_posi))
-for central_posi, possible_posi in tan_dic.items():
-    if central_posi in chosen_paris_posi_t:
-        pairs_t.append(random.choice(possible_posi))
-
-extra_posi_c_25pairs  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
-extra_posi_nc_25pairs = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
-
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_25pairs, ka, kb)
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_25pairs, ka, kb)
-
-####0% paris
-if newWindowSize == 0.6:
-    if len(taken_posi) == 29:
-        n_pairs0,n_triplets0,n_singe0 = 1, 14, 14
-    elif len(taken_posi) == 30:
-        n_pairs0,n_triplets0,n_singe0 = 0, 15, 15
-    elif len(taken_posi) == 31:
-        n_pairs0,n_triplets0,n_singe0 = 1, 15, 15
-    elif len(taken_posi) == 32:
-        n_pairs0,n_triplets0,n_singe0 = 0, 16, 16
-    elif len(taken_posi) == 33:
-        n_pairs0,n_triplets0,n_singe0 = 1, 16, 16
-    elif len(taken_posi) == 34:
-        n_pairs0,n_triplets0,n_singe0 = 0, 17, 17
-if newWindowSize == 0.3:
-    if len(taken_posi) == 11:
-        n_pairs0,n_triplets0,n_singe0 = 1, 5, 5
-    elif len(taken_posi) == 12:
-        n_pairs0,n_triplets0,n_singe0 = 0, 6, 6
-    elif len(taken_posi) == 13:
-        n_pairs0,n_triplets0,n_singe0 = 1, 6, 6
-    elif len(taken_posi) == 14:
-        n_pairs0,n_triplets0,n_singe0 = 0, 7, 7
-    elif len(taken_posi) == 15:
-        n_pairs0,n_triplets0,n_singe0 = 1, 7, 7
-    elif len(taken_posi) == 16:
-        n_pairs0,n_triplets0,n_singe0 = 0, 8, 8
-if newWindowSize == 0.4:
-    if len(taken_posi) == 17:
-        n_pairs0,n_triplets0,n_singe0 = 1, 8, 8
-    elif len(taken_posi) == 18:
-        n_pairs0,n_triplets0,n_singe0 = 0, 9, 9
-    elif len(taken_posi) == 19:
-        n_pairs0,n_triplets0,n_singe0 = 1, 9, 9
-    elif len(taken_posi) == 20:
-        n_pairs0,n_triplets0,n_singe0 = 0, 10, 10
-    elif len(taken_posi) == 21:
-        n_pairs0,n_triplets0,n_singe0 = 1, 10,10
-    elif len(taken_posi) == 22:
-        n_pairs0,n_triplets0,n_singe0 = 0, 11, 11
-
-chosen_tri_posi_r = [] #choose some flowers to make triplets
-chosen_tri_posi_t = []
-chosen_sig_posi_r = [] #other flowers to have single disc
-chosen_sig_posi_t = []
-
-for n in range(0, n_triplets0):
-    #radial
-    random_key_r = random.choice(commonkeys_r_copy1)
-    chosen_tri_posi_r.append(random_key_r)
-    commonkeys_r_copy1.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(commonkeys_t_copy1)
-    chosen_tri_posi_t.append(random_key_t)
-    commonkeys_t_copy1.remove(random_key_t)
-
-chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
-chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
-
-for n in range(0, n_singe0):
-    #radial
-    random_key_r = random.choice(chosen_keys_r)
-    chosen_sig_posi_r.append(random_key_r)
-    chosen_keys_r.remove(random_key_r)
-    #tan
-    random_key_t = random.choice(chosen_keys_t)
-    chosen_sig_posi_t.append(random_key_t)
-    chosen_keys_t.remove(random_key_t)
-
-triplet_posi_c1 = []
-for central_posi, possible_posi in radial_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c1.append(random.choice(possible_posi))
-
-triplet_posi_c2 = []
-for central_posi, possible_posi in radial_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_r:
-        triplet_posi_c2.append(random.choice(possible_posi))
-
-triplet_posi_nc1 = []
-for central_posi, possible_posi in tan_dic_1_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc1.append(random.choice(possible_posi))
-
-triplet_posi_nc2 = []
-for central_posi, possible_posi in tan_dic_2_noempty.items():
-    if central_posi in chosen_tri_posi_t:
-        triplet_posi_nc2.append(random.choice(possible_posi))
-
-chosen_paris_posi_r = list(set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r))
-chosen_paris_posi_t = list(set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t))
-
-pairs_r = []
-pairs_t = []
-for central_posi, possible_posi in radial_dic.items():
-    if central_posi in chosen_paris_posi_r:
-        pairs_r.append(random.choice(possible_posi))
-for central_posi, possible_posi in tan_dic.items():
-    if central_posi in chosen_paris_posi_t:
-        pairs_t.append(random.choice(possible_posi))
-
-extra_posi_c_0pair  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
-extra_posi_nc_0pair = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
-
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_0pair, ka, kb)
-VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_0pair, ka, kb)
+#####75% paris
+#if newWindowSize == 0.6:
+#    if len(taken_posi) == 29:
+#        n_pairs75,n_triplets75,n_singe75 = 21, 4, 4
+#    elif len(taken_posi) == 30:
+#        n_pairs75,n_triplets75,n_singe75 = 22, 4, 4
+#    elif len(taken_posi) == 31:
+#        n_pairs75,n_triplets75,n_singe75 = 21, 5, 5
+#    elif len(taken_posi) == 32:
+#        n_pairs75,n_triplets75,n_singe75 = 24, 4, 4
+#    elif len(taken_posi) == 33:
+#        n_pairs75,n_triplets75,n_singe75 = 25, 4, 4
+#    elif len(taken_posi) == 34:
+#        n_pairs75,n_triplets75,n_singe75 = 24, 5, 5
+#
+#if newWindowSize == 0.3:
+#    if len(taken_posi) == 11:
+#        n_pairs75,n_triplets75,n_singe75 = 9, 1, 1
+#    elif len(taken_posi) == 12:
+#        n_pairs75,n_triplets75,n_singe75 = 8, 2, 2
+#    elif len(taken_posi) == 13:
+#        n_pairs75,n_triplets75,n_singe75 = 9, 2, 2
+#    elif len(taken_posi) == 14:
+#        n_pairs75,n_triplets75,n_singe75 = 10, 2, 2
+#    elif len(taken_posi) == 15:
+#        n_pairs75,n_triplets75,n_singe75 = 11, 2, 2
+#    elif len(taken_posi) == 16:
+#        n_pairs75,n_triplets75,n_singe75 = 12, 2, 2
+#
+#if newWindowSize == 0.4:
+#    if len(taken_posi) == 17:
+#        n_pairs75,n_triplets75,n_singe75 = 13, 2, 2
+#    elif len(taken_posi) == 18:
+#        n_pairs75,n_triplets75,n_singe75 = 14, 2, 2
+#    elif len(taken_posi) == 19:
+#        n_pairs75,n_triplets75,n_singe75 = 15, 2, 2
+#    elif len(taken_posi) == 20:
+#        n_pairs75,n_triplets75,n_singe75 = 16, 2, 2
+#    elif len(taken_posi) == 21:
+#        n_pairs75,n_triplets75,n_singe75 = 15, 3, 3
+#    elif len(taken_posi) == 22:
+#        n_pairs75,n_triplets75,n_singe75 = 16, 3, 3
+#chosen_tri_posi_r = [] #choose some flowers to make triplets
+#chosen_tri_posi_t = []
+#chosen_sig_posi_r = [] #other flowers to have single disc
+#chosen_sig_posi_t = []
+#
+#for n in range(0, n_triplets75):
+#    #radial
+#    random_key_r = random.choice(commonkeys_r_copy2)
+#    chosen_tri_posi_r.append(random_key_r)
+#    commonkeys_r_copy2.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(commonkeys_t_copy2)
+#    chosen_tri_posi_t.append(random_key_t)
+#    commonkeys_t_copy2.remove(random_key_t)
+#    
+#chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
+#chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
+#
+#for n in range(0, n_singe75):
+#    #radial
+#    random_key_r = random.choice(chosen_keys_r)
+#    chosen_sig_posi_r.append(random_key_r)
+#    chosen_keys_r.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(chosen_keys_t)
+#    chosen_sig_posi_t.append(random_key_t)
+#    chosen_keys_t.remove(random_key_t)
+#
+#triplet_posi_c1 = []
+#for central_posi, possible_posi in radial_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c1.append(random.choice(possible_posi))
+#
+#triplet_posi_c2 = []
+#for central_posi, possible_posi in radial_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c2.append(random.choice(possible_posi))
+#
+#triplet_posi_nc1 = []
+#for central_posi, possible_posi in tan_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc1.append(random.choice(possible_posi))
+#
+#triplet_posi_nc2 = []
+#for central_posi, possible_posi in tan_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc2.append(random.choice(possible_posi))
+#
+#chosen_paris_posi_r = set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r)
+#chosen_paris_posi_t = set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t)
+#
+#pairs_r = []
+#pairs_t = []
+#for central_posi, possible_posi in radial_dic.items():
+#    if central_posi in chosen_paris_posi_r:
+#        pairs_r.append(random.choice(possible_posi))
+#for central_posi, possible_posi in tan_dic.items():
+#    if central_posi in chosen_paris_posi_t:
+#        pairs_t.append(random.choice(possible_posi))
+#
+#extra_posi_c_75pairs  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
+#extra_posi_nc_75pairs = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
+#
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_75pairs, ka, kb)
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_75pairs, ka, kb)
+#
+#####50% paris
+#if newWindowSize == 0.6:
+#    if len(taken_posi) == 29:
+#        n_pairs50,n_triplets50,n_singe50 = 15, 7, 7
+#    elif len(taken_posi) == 30:
+#        n_pairs50,n_triplets50,n_singe50 = 16, 7, 7
+#    elif len(taken_posi) == 31:
+#        n_pairs50,n_triplets50,n_singe50 = 15, 8, 8
+#    elif len(taken_posi) == 32:
+#        n_pairs50,n_triplets50,n_singe50 = 16, 8, 8
+#    elif len(taken_posi) == 33:
+#        n_pairs50,n_triplets50,n_singe50 = 17, 8, 8
+#    elif len(taken_posi) == 34:
+#        n_pairs50,n_triplets50,n_singe50 = 16, 9, 9
+#
+#if newWindowSize == 0.3:
+#    if len(taken_posi) == 13:
+#        n_pairs50,n_triplets50,n_singe50 = 7, 3, 3
+#    elif len(taken_posi) == 14:
+#        n_pairs50,n_triplets50,n_singe50 = 8, 3, 3
+#    elif len(taken_posi) == 15:
+#        n_pairs50,n_triplets50,n_singe50 = 7, 4, 4
+#    elif len(taken_posi) == 16:
+#        n_pairs50,n_triplets50,n_singe50 = 8, 4, 4
+#    elif len(taken_posi) == 11:
+#        n_pairs50,n_triplets50,n_singe50 = 5, 3, 3
+#    elif len(taken_posi) == 12:
+#        n_pairs50,n_triplets50,n_singe50 = 6, 3, 3
+#
+#if newWindowSize == 0.4:
+#    if len(taken_posi) == 17:
+#        n_pairs50,n_triplets50,n_singe50 = 9, 4, 4
+#    elif len(taken_posi) == 18:
+#        n_pairs50,n_triplets50,n_singe50 = 10, 4, 4
+#    elif len(taken_posi) == 19:
+#        n_pairs50,n_triplets50,n_singe50 = 9, 5, 5
+#    elif len(taken_posi) == 20:
+#        n_pairs50,n_triplets50,n_singe50 = 10, 5, 5
+#    elif len(taken_posi) == 21:
+#        n_pairs50,n_triplets50,n_singe50 = 11, 5, 5
+#    elif len(taken_posi) == 22:
+#        n_pairs50,n_triplets50,n_singe50 = 12, 5, 5
+#chosen_tri_posi_r = [] #choose some flowers to make triplets
+#chosen_tri_posi_t = []
+#chosen_sig_posi_r = [] #other flowers to have single disc
+#chosen_sig_posi_t = []
+#
+#for n in range(0, n_triplets50):
+#    #radial
+#    random_key_r = random.choice(commonkeys_r_copy3)
+#    chosen_tri_posi_r.append(random_key_r)
+#    commonkeys_r_copy3.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(commonkeys_t_copy3)
+#    chosen_tri_posi_t.append(random_key_t)
+#    commonkeys_t_copy3.remove(random_key_t)
+#    
+#chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
+#chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
+#
+#for n in range(0, n_singe50):
+#    #radial
+#    random_key_r = random.choice(chosen_keys_r)
+#    chosen_sig_posi_r.append(random_key_r)
+#    chosen_keys_r.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(chosen_keys_t)
+#    chosen_sig_posi_t.append(random_key_t)
+#    chosen_keys_t.remove(random_key_t)
+#
+#triplet_posi_c1 = []
+#for central_posi, possible_posi in radial_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c1.append(random.choice(possible_posi))
+#
+#triplet_posi_c2 = []
+#for central_posi, possible_posi in radial_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c2.append(random.choice(possible_posi))
+#
+#triplet_posi_nc1 = []
+#for central_posi, possible_posi in tan_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc1.append(random.choice(possible_posi))
+#
+#triplet_posi_nc2 = []
+#for central_posi, possible_posi in tan_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc2.append(random.choice(possible_posi))
+#
+#chosen_paris_posi_r = list(set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r))
+#chosen_paris_posi_t = list(set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t))
+#
+#pairs_r = []
+#pairs_t = []
+#for central_posi, possible_posi in radial_dic.items():
+#    if central_posi in chosen_paris_posi_r:
+#        pairs_r.append(random.choice(possible_posi))
+#for central_posi, possible_posi in tan_dic.items():
+#    if central_posi in chosen_paris_posi_t:
+#        pairs_t.append(random.choice(possible_posi))
+#
+#extra_posi_c_50pairs  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
+#extra_posi_nc_50pairs = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
+#
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_50pairs, ka, kb)
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_50pairs, ka, kb)
+#
+#####25% paris
+#if newWindowSize == 0.6:
+#    if len(taken_posi) == 29:
+#        n_pairs25,n_triplets25,n_singe25 = 7, 11, 11
+#    elif len(taken_posi) == 30:
+#        n_pairs25,n_triplets25,n_singe25 = 8, 11, 11
+#    elif len(taken_posi) == 31:
+#        n_pairs25,n_triplets25,n_singe25 = 7, 12, 12
+#    elif len(taken_posi) == 32:
+#        n_pairs25,n_triplets25,n_singe25 = 8, 12, 12
+#    elif len(taken_posi) == 33:
+#        n_pairs25,n_triplets25,n_singe25 = 9, 12, 12
+#    elif len(taken_posi) == 34:
+#        n_pairs25,n_triplets25,n_singe25 = 8, 13, 13
+#
+#if newWindowSize == 0.3:
+#    if len(taken_posi) == 11:
+#        n_pairs25,n_triplets25,n_singe25 = 3, 4, 4
+#    elif len(taken_posi) == 12:
+#        n_pairs25,n_triplets25,n_singe25 = 4, 4, 4
+#    elif len(taken_posi) == 13:
+#        n_pairs25,n_triplets25,n_singe25 = 3, 5, 5
+#    elif len(taken_posi) == 14:
+#        n_pairs25,n_triplets25,n_singe25 = 4, 5, 5
+#    elif len(taken_posi) == 15:
+#        n_pairs25,n_triplets25,n_singe25 = 3, 6, 6
+#    elif len(taken_posi) == 16:
+#        n_pairs25,n_triplets25,n_singe25 = 4, 6, 6
+#
+#if newWindowSize == 0.4:
+#    if len(taken_posi) == 17:
+#        n_pairs25,n_triplets25,n_singe25 = 5, 6, 6
+#    elif len(taken_posi) == 18:
+#        n_pairs25,n_triplets25,n_singe25 = 4, 7, 7
+#    elif len(taken_posi) == 19:
+#        n_pairs25,n_triplets25,n_singe25 = 5, 7, 7
+#    elif len(taken_posi) == 20:
+#        n_pairs25,n_triplets25,n_singe25 = 6, 7, 7
+#    elif len(taken_posi) == 21:
+#        n_pairs25,n_triplets25,n_singe25 = 5, 8, 8
+#    elif len(taken_posi) == 22:
+#        n_pairs25,n_triplets25,n_singe25 = 6, 8, 8
+#chosen_tri_posi_r = [] #choose some flowers to make triplets
+#chosen_tri_posi_t = []
+#chosen_sig_posi_r = [] #other flowers to have single disc
+#chosen_sig_posi_t = []
+#
+#for n in range(0, n_triplets25):
+#    #radial
+#    random_key_r = random.choice(commonkeys_r_copy4)
+#    chosen_tri_posi_r.append(random_key_r)
+#    commonkeys_r_copy4.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(commonkeys_t_copy4)
+#    chosen_tri_posi_t.append(random_key_t)
+#    commonkeys_t_copy4.remove(random_key_t)
+#
+#chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
+#chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
+#
+#for n in range(0, n_singe25):
+#    #radial
+#    random_key_r = random.choice(chosen_keys_r)
+#    chosen_sig_posi_r.append(random_key_r)
+#    chosen_keys_r.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(chosen_keys_t)
+#    chosen_sig_posi_t.append(random_key_t)
+#    chosen_keys_t.remove(random_key_t)
+#
+#triplet_posi_c1 = []
+#for central_posi, possible_posi in radial_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c1.append(random.choice(possible_posi))
+#
+#triplet_posi_c2 = []
+#for central_posi, possible_posi in radial_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c2.append(random.choice(possible_posi))
+#
+#triplet_posi_nc1 = []
+#for central_posi, possible_posi in tan_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc1.append(random.choice(possible_posi))
+#
+#triplet_posi_nc2 = []
+#for central_posi, possible_posi in tan_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc2.append(random.choice(possible_posi))
+#
+#chosen_paris_posi_r = list(set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r))
+#chosen_paris_posi_t = list(set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t))
+#
+#pairs_r = []
+#pairs_t = []
+#for central_posi, possible_posi in radial_dic.items():
+#    if central_posi in chosen_paris_posi_r:
+#        pairs_r.append(random.choice(possible_posi))
+#for central_posi, possible_posi in tan_dic.items():
+#    if central_posi in chosen_paris_posi_t:
+#        pairs_t.append(random.choice(possible_posi))
+#
+#extra_posi_c_25pairs  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
+#extra_posi_nc_25pairs = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
+#
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_25pairs, ka, kb)
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_25pairs, ka, kb)
+#
+#####0% paris
+#if newWindowSize == 0.6:
+#    if len(taken_posi) == 29:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 14, 14
+#    elif len(taken_posi) == 30:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 15, 15
+#    elif len(taken_posi) == 31:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 15, 15
+#    elif len(taken_posi) == 32:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 16, 16
+#    elif len(taken_posi) == 33:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 16, 16
+#    elif len(taken_posi) == 34:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 17, 17
+#if newWindowSize == 0.3:
+#    if len(taken_posi) == 11:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 5, 5
+#    elif len(taken_posi) == 12:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 6, 6
+#    elif len(taken_posi) == 13:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 6, 6
+#    elif len(taken_posi) == 14:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 7, 7
+#    elif len(taken_posi) == 15:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 7, 7
+#    elif len(taken_posi) == 16:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 8, 8
+#if newWindowSize == 0.4:
+#    if len(taken_posi) == 17:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 8, 8
+#    elif len(taken_posi) == 18:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 9, 9
+#    elif len(taken_posi) == 19:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 9, 9
+#    elif len(taken_posi) == 20:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 10, 10
+#    elif len(taken_posi) == 21:
+#        n_pairs0,n_triplets0,n_singe0 = 1, 10,10
+#    elif len(taken_posi) == 22:
+#        n_pairs0,n_triplets0,n_singe0 = 0, 11, 11
+#
+#chosen_tri_posi_r = [] #choose some flowers to make triplets
+#chosen_tri_posi_t = []
+#chosen_sig_posi_r = [] #other flowers to have single disc
+#chosen_sig_posi_t = []
+#
+#for n in range(0, n_triplets0):
+#    #radial
+#    random_key_r = random.choice(commonkeys_r_copy1)
+#    chosen_tri_posi_r.append(random_key_r)
+#    commonkeys_r_copy1.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(commonkeys_t_copy1)
+#    chosen_tri_posi_t.append(random_key_t)
+#    commonkeys_t_copy1.remove(random_key_t)
+#
+#chosen_keys_r = list(set(taken_posi) - set(chosen_tri_posi_r))
+#chosen_keys_t = list(set(taken_posi) - set(chosen_tri_posi_t))
+#
+#for n in range(0, n_singe0):
+#    #radial
+#    random_key_r = random.choice(chosen_keys_r)
+#    chosen_sig_posi_r.append(random_key_r)
+#    chosen_keys_r.remove(random_key_r)
+#    #tan
+#    random_key_t = random.choice(chosen_keys_t)
+#    chosen_sig_posi_t.append(random_key_t)
+#    chosen_keys_t.remove(random_key_t)
+#
+#triplet_posi_c1 = []
+#for central_posi, possible_posi in radial_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c1.append(random.choice(possible_posi))
+#
+#triplet_posi_c2 = []
+#for central_posi, possible_posi in radial_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_r:
+#        triplet_posi_c2.append(random.choice(possible_posi))
+#
+#triplet_posi_nc1 = []
+#for central_posi, possible_posi in tan_dic_1_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc1.append(random.choice(possible_posi))
+#
+#triplet_posi_nc2 = []
+#for central_posi, possible_posi in tan_dic_2_noempty.items():
+#    if central_posi in chosen_tri_posi_t:
+#        triplet_posi_nc2.append(random.choice(possible_posi))
+#
+#chosen_paris_posi_r = list(set(taken_posi) - set(chosen_sig_posi_r) - set(chosen_tri_posi_r))
+#chosen_paris_posi_t = list(set(taken_posi) - set(chosen_sig_posi_t) - set(chosen_tri_posi_t))
+#
+#pairs_r = []
+#pairs_t = []
+#for central_posi, possible_posi in radial_dic.items():
+#    if central_posi in chosen_paris_posi_r:
+#        pairs_r.append(random.choice(possible_posi))
+#for central_posi, possible_posi in tan_dic.items():
+#    if central_posi in chosen_paris_posi_t:
+#        pairs_t.append(random.choice(possible_posi))
+#
+#extra_posi_c_0pair  = triplet_posi_c1 + triplet_posi_c2 + pairs_r
+#extra_posi_nc_0pair = triplet_posi_nc1 + triplet_posi_nc2 + pairs_t
+#
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_c_0pair, ka, kb)
+#VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_0pair, ka, kb)
 
 #%% =============================================================================
 # stimuli properties
@@ -738,21 +772,21 @@ VirtualEllipseFunc.m_drawEllipses.drawEllipse_full(taken_posi, extra_posi_nc_0pa
 properties_fullpairs_c  = get_display_properties(taken_posi+radial_posi_100p)
 properties_fullpairs_nc = get_display_properties(taken_posi+tan_posi_100p)
 
-#0% pair
-properties_0pair_c  = get_display_properties(taken_posi+extra_posi_c_0pair)
-properties_0pair_nc = get_display_properties(taken_posi+extra_posi_nc_0pair)
-
-#75% pairs
-properties_75pairs_c  = get_display_properties(taken_posi+extra_posi_c_75pairs)
-properties_75pairs_nc = get_display_properties(taken_posi+extra_posi_nc_75pairs)
-
-#50% paris
-properties_50pairs_c  = get_display_properties(taken_posi+extra_posi_c_50pairs)
-properties_50pairs_nc = get_display_properties(taken_posi+extra_posi_nc_50pairs)
-
-#25% paris
-properties_25pairs_c  = get_display_properties(taken_posi+extra_posi_c_25pairs)
-properties_25pairs_nc = get_display_properties(taken_posi+extra_posi_nc_25pairs)
+##0% pair
+#properties_0pair_c  = get_display_properties(taken_posi+extra_posi_c_0pair)
+#properties_0pair_nc = get_display_properties(taken_posi+extra_posi_nc_0pair)
+#
+##75% pairs
+#properties_75pairs_c  = get_display_properties(taken_posi+extra_posi_c_75pairs)
+#properties_75pairs_nc = get_display_properties(taken_posi+extra_posi_nc_75pairs)
+#
+##50% paris
+#properties_50pairs_c  = get_display_properties(taken_posi+extra_posi_c_50pairs)
+#properties_50pairs_nc = get_display_properties(taken_posi+extra_posi_nc_50pairs)
+#
+##25% paris
+#properties_25pairs_c  = get_display_properties(taken_posi+extra_posi_c_25pairs)
+#properties_25pairs_nc = get_display_properties(taken_posi+extra_posi_nc_25pairs)
 # =============================================================================
 # write to csv
 # =============================================================================
@@ -767,42 +801,42 @@ csv_data_fullpairs_nc  = [loop_number, len(taken_posi), len(tan_posi_100p), take
                           properties_fullpairs_nc[2], properties_fullpairs_nc[3],\
                           len(taken_posi), 0, 0]
 
-csv_data_0pair_c   = [loop_number, len(taken_posi), len(extra_posi_c_0pair), taken_posi,\
-                          extra_posi_c_0pair, properties_0pair_c[0], properties_0pair_c[1],\
-                          properties_0pair_c[2], properties_0pair_c[3],\
-                          n_pairs0,n_triplets0,n_singe0]
-csv_data_0pair_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_0pair), taken_posi,\
-                          extra_posi_nc_0pair, properties_0pair_nc[0], properties_0pair_nc[1],\
-                          properties_0pair_nc[2], properties_0pair_nc[3],\
-                          n_pairs0,n_triplets0,n_singe0]
-
-csv_data_75pairs_c   = [loop_number, len(taken_posi), len(extra_posi_c_75pairs), taken_posi,\
-                          extra_posi_c_75pairs, properties_75pairs_c[0], properties_75pairs_c[1],\
-                          properties_75pairs_c[2], properties_75pairs_c[3],\
-                          n_pairs75,n_triplets75,n_singe75]
-csv_data_75pairs_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_75pairs), taken_posi,\
-                          extra_posi_nc_75pairs, properties_75pairs_nc[0], properties_75pairs_nc[1],\
-                          properties_75pairs_nc[2], properties_75pairs_nc[3],\
-                          n_pairs75,n_triplets75,n_singe75]
-
-
-csv_data_50pairs_c   = [loop_number, len(taken_posi), len(extra_posi_c_50pairs), taken_posi,\
-                          extra_posi_c_50pairs, properties_50pairs_c[0], properties_50pairs_c[1],\
-                          properties_50pairs_c[2], properties_50pairs_c[3],\
-                          n_pairs50,n_triplets50,n_singe50]
-csv_data_50pairs_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_50pairs), taken_posi,\
-                          extra_posi_nc_50pairs, properties_50pairs_nc[0], properties_50pairs_nc[1],\
-                          properties_50pairs_nc[2], properties_50pairs_nc[3],\
-                          n_pairs50,n_triplets50,n_singe50]
-
-csv_data_25pairs_c   = [loop_number, len(taken_posi), len(extra_posi_c_25pairs), taken_posi,\
-                          extra_posi_c_25pairs, properties_25pairs_c[0], properties_25pairs_c[1],\
-                          properties_25pairs_c[2], properties_25pairs_c[3],\
-                          n_pairs25,n_triplets25,n_singe25]
-csv_data_25pairs_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_25pairs), taken_posi,\
-                          extra_posi_nc_25pairs, properties_25pairs_nc[0], properties_25pairs_nc[1],\
-                          properties_25pairs_nc[2], properties_25pairs_nc[3],\
-                          n_pairs25,n_triplets25,n_singe25]
+#csv_data_0pair_c   = [loop_number, len(taken_posi), len(extra_posi_c_0pair), taken_posi,\
+#                          extra_posi_c_0pair, properties_0pair_c[0], properties_0pair_c[1],\
+#                          properties_0pair_c[2], properties_0pair_c[3],\
+#                          n_pairs0,n_triplets0,n_singe0]
+#csv_data_0pair_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_0pair), taken_posi,\
+#                          extra_posi_nc_0pair, properties_0pair_nc[0], properties_0pair_nc[1],\
+#                          properties_0pair_nc[2], properties_0pair_nc[3],\
+#                          n_pairs0,n_triplets0,n_singe0]
+#
+#csv_data_75pairs_c   = [loop_number, len(taken_posi), len(extra_posi_c_75pairs), taken_posi,\
+#                          extra_posi_c_75pairs, properties_75pairs_c[0], properties_75pairs_c[1],\
+#                          properties_75pairs_c[2], properties_75pairs_c[3],\
+#                          n_pairs75,n_triplets75,n_singe75]
+#csv_data_75pairs_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_75pairs), taken_posi,\
+#                          extra_posi_nc_75pairs, properties_75pairs_nc[0], properties_75pairs_nc[1],\
+#                          properties_75pairs_nc[2], properties_75pairs_nc[3],\
+#                          n_pairs75,n_triplets75,n_singe75]
+#
+#
+#csv_data_50pairs_c   = [loop_number, len(taken_posi), len(extra_posi_c_50pairs), taken_posi,\
+#                          extra_posi_c_50pairs, properties_50pairs_c[0], properties_50pairs_c[1],\
+#                          properties_50pairs_c[2], properties_50pairs_c[3],\
+#                          n_pairs50,n_triplets50,n_singe50]
+#csv_data_50pairs_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_50pairs), taken_posi,\
+#                          extra_posi_nc_50pairs, properties_50pairs_nc[0], properties_50pairs_nc[1],\
+#                          properties_50pairs_nc[2], properties_50pairs_nc[3],\
+#                          n_pairs50,n_triplets50,n_singe50]
+#
+#csv_data_25pairs_c   = [loop_number, len(taken_posi), len(extra_posi_c_25pairs), taken_posi,\
+#                          extra_posi_c_25pairs, properties_25pairs_c[0], properties_25pairs_c[1],\
+#                          properties_25pairs_c[2], properties_25pairs_c[3],\
+#                          n_pairs25,n_triplets25,n_singe25]
+#csv_data_25pairs_nc  = [loop_number, len(taken_posi), len(extra_posi_nc_25pairs), taken_posi,\
+#                          extra_posi_nc_25pairs, properties_25pairs_nc[0], properties_25pairs_nc[1],\
+#                          properties_25pairs_nc[2], properties_25pairs_nc[3],\
+#                          n_pairs25,n_triplets25,n_singe25]
 
 with open('fullpairsc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
     writer = csv.writer(csvfile)
@@ -812,37 +846,37 @@ with open('fullpairsnc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfi
     writer = csv.writer(csvfile)
     writer.writerow(csv_data_fullpairs_nc)
 
-with open('no_pairc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_0pair_c)
-
-with open('no_pairnc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_0pair_nc)
-
-with open('pairs75c_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_75pairs_c)
-
-with open('pairs75nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_75pairs_nc)
-
-with open('pairs50c_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_50pairs_c)
-
-with open('pairs50nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_50pairs_nc)
-
-with open('pairs25c_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_25pairs_c)
-
-with open('pairs25nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerow(csv_data_25pairs_nc)
+#with open('no_pairc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_0pair_c)
+#
+#with open('no_pairnc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_0pair_nc)
+#
+#with open('pairs75c_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_75pairs_c)
+#
+#with open('pairs75nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_75pairs_nc)
+#
+#with open('pairs50c_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_50pairs_c)
+#
+#with open('pairs50nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_50pairs_nc)
+#
+#with open('pairs25c_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_25pairs_c)
+#
+#with open('pairs25nc_ws_%s.csv' %(newWindowSize), 'a+', newline = '') as csvfile:
+#    writer = csv.writer(csvfile)
+#    writer.writerow(csv_data_25pairs_nc)
 
 #%% =============================================================================
 # Run
