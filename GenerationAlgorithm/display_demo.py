@@ -129,7 +129,7 @@ exp1_no_crowding = [(-240.0, -190.0), (-90.0, -130.0), (-270.0, -90.0), (-50.0, 
 # =============================================================================
 # draw ellipse
 # =============================================================================
-def drawEllipse_full(e_posi, extra_posi, ka, kb, ellipseColor_r = 'orangered', ellipseColor_t = 'lime'):
+def drawEllipse_full(e_posi, extra_posi, ka, kb, ellipseColor_r = 'orangered', ellipseColor_t = 'royalblue'):
     """
     This function allows to draw more than one ellipse. The parameter is
     a list of coordinate (must contain at least two coordinates)
@@ -196,7 +196,7 @@ def drawEllipse_full(e_posi, extra_posi, ka, kb, ellipseColor_r = 'orangered', e
     ax.patch.set_facecolor('lightgray')
     plt.show()
 
-    plt.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
+    fig.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
 
 
 def drawEllipses(posi, ka, kb, ellipseColor, ellipsetransp = 0.5):
@@ -215,7 +215,7 @@ def drawEllipses(posi, ka, kb, ellipseColor, ellipsetransp = 0.5):
                     angle = angle_deg3[j])
             for j in range(len(posi))]
 
-    fig, ax = plt.subplots(subplot_kw = {'aspect': 'equal'})
+    fig, ax = plt.subplots(subplot_kw = {'aspect': 'equal'}, figsize = (8, 6))
 
     for e in my_e:
         ax.add_artist(e)
@@ -226,10 +226,10 @@ def drawEllipses(posi, ka, kb, ellipseColor, ellipsetransp = 0.5):
         # e.set_facecolor(np.random.rand(3))
         # change face color here
         if ellipseColor == 'orangered':
-            e.set_facecolor('orangered')  # 'lime'
+            e.set_facecolor('orangered')  # 'royalblue'
         else:
             e.set_facecolor(ellipseColor)
-        # e.set_facecolor('lime')
+        # e.set_facecolor('royalblue')
 
     # plot central discs
     for dot in posi:
@@ -251,11 +251,10 @@ def drawEllipses(posi, ka, kb, ellipseColor, ellipsetransp = 0.5):
     # set background color
     ax.patch.set_facecolor('lightgray')
     plt.show()
+    fig.savefig('try.png',bbox_inches = 'tight', pad_inches = 0)
 
-    plt.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
 
-
-def drawEllipse_crowding(e_posi, crowding_posi, ka, kb, ellipseColor_r = 'lime', ellipseColor_t = 'lime'):
+def drawEllipse_crowding(e_posi, black_disc_posi, red_disc_posi, crowding_posi, ka, kb, ellipseColor_r = 'royalblue', ellipseColor_t = 'royalblue'):
     """
     crowding display: show discs that falls into others crowding zones.
 
@@ -282,7 +281,7 @@ def drawEllipse_crowding(e_posi, crowding_posi, ka, kb, ellipseColor_r = 'lime',
         angle_deg0 = angle_rad0 * 180 / pi
         angle_deg_c.append(angle_deg0)
     my_e = [Ellipse(xy = crowding_posi[j], width = eccentricities_c[j] * ka * 2, height = eccentricities_c[j] * kb * 2,
-                    angle = angle_deg_c[j])
+                    angle = angle_deg_c[j], linestyle = "--")
             for j in range(len(crowding_posi))]
 
     # tangential
@@ -291,29 +290,38 @@ def drawEllipse_crowding(e_posi, crowding_posi, ka, kb, ellipseColor_r = 'lime',
         angle_rad0_2 = atan2(e_posi[ang][1], e_posi[ang][0])
         angle_deg0_2 = angle_rad0_2 * 180 / pi + 90
         angle_deg2.append(angle_deg0_2)
-    my_e2 = [Ellipse(xy = e_posi[j], width = eccentricities[j] * ka * 2, height = eccentricities[j] * kb * 2,
-                     angle = angle_deg[j] + 90)
-             for j in range(len(e_posi))]
+    # my_e2 = [Ellipse(xy = e_posi[j], width = eccentricities[j] * ka * 2, height = eccentricities[j] * kb * 2,
+    #                  angle = angle_deg[j] + 90)
+    #          for j in range(len(e_posi))]
 
-    fig, ax = plt.subplots(subplot_kw = {'aspect': 'equal'})
+    fig, ax = plt.subplots(subplot_kw = {'aspect': 'equal'}, figsize = (8, 6))
     for e in my_e:
         ax.add_artist(e)
         e.set_clip_box(ax.bbox)
-        e.set_alpha(0.5)
-        e.set_facecolor(ellipseColor_r)
-    for e2 in my_e2:
-        ax.add_artist(e2)
-        e2.set_clip_box(ax.bbox)
-        e2.set_alpha(0.5)
-        e2.set_facecolor(ellipseColor_t)
+        # e.set_alpha(0.5)
+        # e.set_facecolor(ellipseColor_r)
+        e.set_edgecolor(ellipseColor_r)
+        e.set_fill(False)
+    # for e2 in my_e2:
+    #     ax.add_artist(e2)
+    #     e2.set_clip_box(ax.bbox)
+    #     e2.set_alpha(0.5)
+    #     e2.set_facecolor(ellipseColor_t)
 
     # show the discs on the ellipses-flower
     for dot in e_posi:
-        plt.plot(dot[0], dot[1], color = 'k', marker = 'o', markersize = 2)
-    for dot in extra_nc:
-        plt.plot(dot[0], dot[1], color = 'r', marker = 'o', markersize = 2)
+        plt.plot(dot[0], dot[1], color = 'k', marker = 'o', markersize = 4, alpha = 0.3)
+    for dot in black_disc_posi:
+        plt.plot(dot[0], dot[1], color = 'k', marker = 'o', markersize = 4)
+    for dot in red_disc_posi:
+        plt.plot(dot[0], dot[1], color = 'orangered', marker = 'o', markersize = 4)
+
+    ax.add_patch(plt.Circle((0, 0), distance.euclidean((100, 170), (0, 0)), alpha = 0.5, linestyle = "--", fill = False))
+    ax.add_patch(plt.Circle((0, 0), distance.euclidean((80, 60), (0, 0)), alpha = 0.5, linestyle = "--", fill = False))
+    # for dot in extra_nc:
+    #     plt.plot(dot[0], dot[1], color = 'r', marker = 'o', markersize = 2)
     # plt.show()
-    plt.plot(0, 0, color = 'k', marker = '+', markersize = 4)
+    plt.plot(0, 0, color = 'k', marker = '+', markersize = 10)
     # plt.show()
     # ax.set_xlim([-800, 800])
     # ax.set_ylim([-500, 500])
@@ -331,11 +339,11 @@ def drawEllipse_crowding(e_posi, crowding_posi, ka, kb, ellipseColor_r = 'lime',
     ax.axes.get_xaxis().set_visible(False)
     ax.patch.set_facecolor('lightgray')
     plt.show()
-    plt.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
+    fig.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
 
 
 def draw_disc_only(e_posi):
-    fig, ax = plt.subplots(subplot_kw = {'aspect': 'equal'})
+    fig, ax = plt.subplots(subplot_kw = {'aspect': 'equal'}, figsize = (4, 3))
     for dot in e_posi:
         plt.plot(dot[0], dot[1], color = 'k', marker = 'o', markersize = 2)
     plt.plot(0, 0, color = 'k', marker = '+', markersize = 4)
@@ -355,7 +363,7 @@ def draw_disc_only(e_posi):
     ax.patch.set_facecolor('lightgray')
     plt.show()
 
-    plt.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
+    fig.savefig('try.png', bbox_inches = 'tight', pad_inches = 0)
 
 
 if __name__ == '__main__':
@@ -368,14 +376,14 @@ if __name__ == '__main__':
     # drawEllipse_full(centerposi, extra_c_0p, 0.25, 0.1)
     # drawEllipse_full(centerposi, extra_nc_0p, 0.25, 0.1)
     # drawEllipses(baseline,ellipseColor="white",ka = 0.14,kb = 0.14)
-    drawEllipses(exp1_c, 0.1, 0.25, ellipseColor = '2')
-    drawEllipses(exp1_nc, 0.25, 0.1, ellipseColor = '2')
+    # drawEllipses(exp1_c, 0.1, 0.25, ellipseColor = '2')
+    # drawEllipses(exp1_nc, 0.25, 0.1, ellipseColor = '2')
 
     # drawEllipse_full(extra_nc,centerposi , 0.25, 0.1)
     #
-    # draw_disc_only(centerposi+extra_c_0p)
+    # draw_disc_only(exp1_nc)
     #
-    # drawEllipses(posi = exp1_crowding, ka=0.1, kb=0.25, ellipseColor = 'lime', ellipsetransp = 0.5)
+    # drawEllipses(posi = exp1_crowding, ka=0.1, kb=0.25, ellipseColor = 'royalblue', ellipsetransp = 0.5)
 
     # =============================================================================
     # exp2 - displays demo varing pairs
@@ -395,14 +403,19 @@ if __name__ == '__main__':
     # =============================================================================
     # exp 1 display sample
     # =============================================================================
-    draw_disc_only(exp1_crowding)
-    # exp 1 display with ellipses no-crowding
-    drawEllipses(posi = exp1_no_crowding, ka = 0.25, kb = 0.1, ellipseColor = 'orangered', ellipsetransp = 0.5)
-    # exp1 display with ellipses crowding
+    # draw_disc_only(exp1_crowding)
+    # # exp 1 display with ellipses no-crowding
+    # drawEllipses(posi = exp1_no_crowding, ka = 0.25, kb = 0.1, ellipseColor = 'orangered', ellipsetransp = 0.5)
+    # # exp1 display with ellipses crowding
 
-    crowded_posi = [exp1_crowding[0], exp1_crowding[5], exp1_crowding[8], exp1_crowding[9], exp1_crowding[13],
-                    exp1_crowding[23], exp1_crowding[34], exp1_crowding[36], exp1_crowding[46], exp1_crowding[48],
-                    exp1_crowding[49], exp1_crowding[51], exp1_crowding[52]]
 
-    drawEllipse_crowding(exp1_crowding, crowded_posi, ka = 0.25, kb = 0.1, ellipseColor_r = 'orangered',
-                         ellipseColor_t = 'lime')
+    #
+    exp1_c_demo = [(20.0, -170.0), (230.0, -100.0), (300.0, -20.0), (120.0, -210.0), (100.0, -80.0),  (210.0, -10.0),
+              (170.0, -100.0),  (50.0, -100.0),  (250.0, -180.0), (150.0, -50.0), (80.0, -60.0),  (100.0, -10.0),
+                   (90.0, -130.0), (20.0, -130.0),(100.0, -170.0)]
+    central_disc = [(100, -170.0), (80.0, -60.0)]
+    extra_disc = [(90.0, -130.0), (120, -210), (100.0, -80.0)]
+    drawEllipse_crowding(exp1_c_demo, central_disc, extra_disc, central_disc, ka = 0.35, kb = 0.12, ellipseColor_r = 'orangered',
+                         ellipseColor_t = 'white')
+
+
